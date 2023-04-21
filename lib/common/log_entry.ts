@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (c) 2016-2017 Rafał Michalski <royal@yeondir.com>
  */
 "use strict";
@@ -81,7 +81,7 @@ function makeCheckRequestSanity(requestIdTtl, msDiffMarginPast, msDiffMarginFutu
   }
 }
 
-class UpdateRequest extends Buffer {
+export class UpdateRequest extends Buffer {
   constructor(buffer, requestId) {
     if (!isBuffer(buffer)) {
       throw new TypeError("UpdateRequest: provided buffer argument is not a buffer");
@@ -106,7 +106,7 @@ class UpdateRequest extends Buffer {
 }
 
 /* in node 4 and later Buffer hackishly descends from Uint8Array */
-class LogEntry extends Buffer {
+export class LogEntry extends Buffer {
   /* Creates a new LogEntry instance from a buffer without copying its bytes */
   constructor(buffer, logIndex) {
     if (!isBuffer(buffer) || buffer.length < LOG_ENTRY_HEADER_SIZE) {

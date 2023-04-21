@@ -25,7 +25,7 @@ test('router', suite => {
     var socket = new ZmqRpcSocket(url);
     t.equal(socket.pending, null);
     return Promise.all([
-      new Promise((resolve, reject) => {
+      new Promise<void>((resolve, reject) => {
         router.on('frames', (frames) => {
           try {
             let [src, id, msg] = frames;
@@ -54,7 +54,7 @@ test('router', suite => {
         });
         return promise.then(res => {
           t.type(res, Array);
-          t.type(res.length, 2);
+          t.type(res.length, 2 as any);
           t.type(res[0], Buffer);
           t.type(res[1], Buffer);
           t.equal(res[0].toString(), "foo");
@@ -62,7 +62,7 @@ test('router', suite => {
         })
       })
       .then(() => {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
           socket.close();
           router.unbind(url, err => {
             if (err) return reject(err);
@@ -124,11 +124,11 @@ test('router', suite => {
         return Promise.all([
           promise.then(res => {
             t.type(res, Array);
-            t.type(res.length, 1);
+            t.type(res.length, 1 as any);
             t.type(res[0], Buffer);
             t.equal(res[0].toString(), "baz");
           }),
-          delay(500).then(() => new Promise((resolve, reject) => {
+          delay(500).then(() => new Promise<void>((resolve, reject) => {
             var [router2, url2] = createZmqSocket('router', url);
             t.equal(url, url2);
             router = router2;
@@ -151,7 +151,7 @@ test('router', suite => {
         ]);
       })
       .then(() => {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
           socket.close();
           router.unbind(url, err => {
             if (err) return reject(err);
@@ -172,7 +172,7 @@ test('router', suite => {
     var start = Date.now();
     var numrequests = 0;
     return Promise.all([
-      new Promise((resolve, reject) => {
+      new Promise<void>((resolve, reject) => {
         router.on('frames', (frames) => {
           try {
             let [src, id, msg] = frames;
@@ -198,7 +198,7 @@ test('router', suite => {
         t.ok(Date.now() - start >= 75);
       })
       .then(() => {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
           socket.close();
           router.unbind(url, err => {
             if (err) return reject(err);
@@ -214,7 +214,7 @@ test('router', suite => {
   suite.end();
 });
 
-function createZmqSocket(type, url) {
+function createZmqSocket(type, url?) {
   var sock = new ZmqSocket(type);
   sock.setsockopt(ZMQ_LINGER, 0);
   do {

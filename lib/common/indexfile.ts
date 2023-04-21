@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (c) 2016-2017 Rafał Michalski <royal@yeondir.com>
  */
 "use strict";
@@ -87,7 +87,7 @@ class IndexFile extends ReadyEmitter {
    *
    * If a directory is given, the index argument is required and in this instance a log file
    * along with all required subdirectories will be created if the file is not present.
-   * 
+   *
    * @param {string} dir|filename - root directory or path to index file
    * @param {number} [index] - first log entry index only if the first argument is a directory
    * @param {number} [capacity] - optional capacity of the new file created, ignored if file exists
@@ -771,7 +771,7 @@ function writeBuffersUpTo(fd, buffers, offsets, indexStart, dataoffset, position
   const length = buffers.length;
   if (length === 0 || getEntrySize(buffers[0]) > limit) return Promise.resolve(0);
 
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     const writer = createWriteStream(null, {fd: fd, autoClose: false, start: dataoffset + position});
     writer.on('error', err => {
       writer.removeListener('drain', write);

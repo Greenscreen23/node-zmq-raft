@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (c) 2016-2019 Rafał Michalski <royal@yeondir.com>
  */
 "use strict";
@@ -122,7 +122,7 @@ const defaultOptions = exports.defaultOptions = {
   //, requestIdCacheMax: null
 };
 
-const createOptions = exports.createOptions = createOptionsFactory(defaultOptions);
+export const createOptions = createOptionsFactory(defaultOptions);
 
 function createFileLog(options) {
   const raftdir = options.data.path

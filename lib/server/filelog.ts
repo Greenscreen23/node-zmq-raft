@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (c) 2016-2017 Rafał Michalski <royal@yeondir.com>
  */
 "use strict";
@@ -196,7 +196,7 @@ class FileLog extends ReadyEmitter {
    * - indexFileCapacity {number}: the IndexFile capacity when creating a new file log.
    * - requestIdTtl {number|null}: an updating request IDs' Time-To-Live in milliseconds,
    *                               null disables all time based checks, default: 8 hours.
-   * - requestIdCacheMax {number|null}: sets high water mark for capacity of updating 
+   * - requestIdCacheMax {number|null}: sets high water mark for capacity of updating
    *                                    request IDs' cache, default: null.
    *
    * At least one of the options: requestIdTtl or requestIdCacheMax should be non-null.
@@ -204,7 +204,7 @@ class FileLog extends ReadyEmitter {
    *
    * @return {FileLog}
   **/
-  constructor(logdir, snapshot, options) {
+  constructor(logdir, snapshot, options?) {
     super();
 
     if (!logdir || 'string' !== typeof logdir) throw new TypeError("FileLog: first argument must be a directory name");
@@ -365,7 +365,7 @@ class FileLog extends ReadyEmitter {
    * @return {Promise}
   **/
   appendEntry(requestId, type, term, data) {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       var logEntryTypeBuf = logEntryTypeBuffers[type];
       if (logEntryTypeBuf === undefined) return reject(new TypeError("FileLog.appendEntry: type is invalid"));
 
@@ -520,7 +520,7 @@ class FileLog extends ReadyEmitter {
         });
       }
       else {
-        return this._indexFileOf(lastIndexFile.firstAllowedIndex - 1, 
+        return this._indexFileOf(lastIndexFile.firstAllowedIndex - 1,
           prevIndexFile => readTermAt(prevIndexFile, prevIndexFile.lastAllowedIndex)
           .then(term => {
             this.lastIndex = prevIndexFile.lastAllowedIndex;
@@ -899,7 +899,7 @@ class FileLog extends ReadyEmitter {
       return this.getEntries(firstIndex, lastIndex)
       .then(entries => stateMachine.applyEntries(entries, firstIndex, currentTerm, snapshot));
     }
-    else return new Promise((resolve, reject) => {
+    else return new Promise<void>((resolve, reject) => {
       this.createEntriesReadStream(firstIndex, lastIndex)
       .on('error', reject)
       .pipe(new StateMachineWriter(stateMachine, firstIndex, currentTerm, snapshot))
@@ -1021,7 +1021,7 @@ class FileLog extends ReadyEmitter {
   _readRequestsFromLogs(logFirstAllowedIndex) {
     debug("reading request ids from index files down to: %s", logFirstAllowedIndex);
     const hasRequestExpired = this.hasRequestExpired;
-    const requestIdCacheMax = this.requestIdCacheMax == null ? Number.POSITIVE_INFINITY 
+    const requestIdCacheMax = this.requestIdCacheMax == null ? Number.POSITIVE_INFINITY
                                                              : this.requestIdCacheMax;
     const temprdbmax = 2 * requestIdCacheMax;
     var lastIndexFile = this[lastIndexFile$];
@@ -1472,7 +1472,7 @@ function wow(id,me,ms) {
   strm.on('data', e => {e.forEach(b=>assert(b.equals(my[i++])));});
   return strm;
 }
-function delay(x) { return new Promise((r,e)=>setTimeout(r,x)); }
+function delay(x) { return new Promise<void>((r,e)=>setTimeout(r,x)); }
 Promise.resolve(wow(':O')).then(s=>delay(50)).then(()=>ben.async(1, cb=>log.appendEntries(my, 0xffff).then(cb,console.error),ms=>console.log('ms: %s',ms)));
 Promise.resolve(wow(':O')).then(s=>{ delay(Math.random()*150>>>0).then(()=>{console.log('cancel');s.cancel();})});
 Promise.resolve(wow(':O')).then(s=>{ delay(90).then(()=>{console.log('cancel');s._if.close();})});

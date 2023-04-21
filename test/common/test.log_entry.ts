@@ -76,7 +76,7 @@ test('makeCheckRequestSanity', t => {
 });
 
 test('mixinReaders', t => {
-  var o = {};
+  var o: any = {};
   mixinReaders(o);
   t.type(o.readTypeOf     , 'function');
   t.type(o.readTermOf     , 'function');
@@ -91,7 +91,7 @@ test('mixinReaders', t => {
 
 
 test('LogEntry', t => {
-  var buf = Buffer.from([17,18,19,20,21,22,23,24,25,26,27,28,2,0xff,0xff,0xff,0xff,0xff,0xff,0x1f,0xc0]);
+  var buf: any = Buffer.from([17,18,19,20,21,22,23,24,25,26,27,28,2,0xff,0xff,0xff,0xff,0xff,0xff,0x1f,0xc0]);
   var entry = new LogEntry(buf, 42);
   t.type(entry, LogEntry);
   t.type(entry, Buffer);
@@ -131,7 +131,7 @@ test('LogEntry', t => {
   t.same(entry.readEntryData(), Buffer.from([0xc0]));
 
   t.test('bufferToLogEntry', t => {
-    var buf = Buffer.from([17,18,19,20,21,22,23,24,25,26,27,28,2,0xff,0xff,0xff,0xff,0xff,0xff,0x1f,0xc0]);
+    var buf: any = Buffer.from([17,18,19,20,21,22,23,24,25,26,27,28,2,0xff,0xff,0xff,0xff,0xff,0xff,0x1f,0xc0]);
     var entry = LogEntry.bufferToLogEntry(buf, 42);
     t.type(entry, LogEntry);
     t.type(entry, Buffer);
@@ -197,7 +197,7 @@ test('UpdateRequest', t => {
   t.type(req.requestId, 'undefined');
 
   t.test('bufferToUpdateRequest', t => {
-    var buf = Buffer.from([0xc0]);
+    var buf: any = Buffer.from([0xc0]);
     var req = UpdateRequest.bufferToUpdateRequest(buf, raft.utils.id.genIdent('buffer'));
     t.type(req, UpdateRequest);
     t.type(req, Buffer);

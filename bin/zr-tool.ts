@@ -73,7 +73,7 @@ if (program.args.length !== 2) program.help();
 function run(command, path, options) {
   return Promise.resolve().then(() => {
     if (opts.output) {
-      return new Promise((resolve, reject) => {
+      return new Promise<void>((resolve, reject) => {
         outstrm = fs.createWriteStream(opts.output)
         .on('error', reject)
         .on('open', resolve);
@@ -90,7 +90,7 @@ function run(command, path, options) {
     }
   })
   .then(() => {
-    if (outstrm !== process.stdout) return new Promise((resolve, reject) => {
+    if (outstrm !== process.stdout) return new Promise<void>((resolve, reject) => {
       outstrm.on('error', reject).on('close', resolve).end();
     });
   })
@@ -204,7 +204,7 @@ function reportSnapshot(snapshot, stat, tokenfile) {
 
 function dumpSnapshotFile(file, stat, tokenfile, options) {
   return new SnapshotFile(file).ready()
-  .then(snapshot => new Promise((resolve, reject) => {
+  .then(snapshot => new Promise<void>((resolve, reject) => {
       var reader = snapshot.createDataReadStream().on('error', reject);
       if (options.unzip) reader = reader.pipe(createUnzip()).on('error', reject);
       if (options.msgpack) reader = reader.pipe(mp.createDecodeStream())
@@ -294,7 +294,7 @@ function dumpIndexFile(file, stat, tokenfile, options) {
       ])
     };
 
-    const dumplog = ([firstIndex, lastIndex]) => new Promise((resolve, reject) => {
+    const dumplog = ([firstIndex, lastIndex]) => new Promise<void>((resolve, reject) => {
       var index = firstIndex;
       indexfile.createLogEntryReadStream(firstIndex, lastIndex)
       .on('error', reject)
@@ -329,7 +329,7 @@ function inspectState(file, stat, fd) {
 }
 
 function dumpState(file, stat, fd) {
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     fs.createReadStream(null, {fd: fd, autoClose: true})
     .on('error', reject)
     .pipe(mp.createDecodeStream())

@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (c) 2016-2018 Rafał Michalski <royal@yeondir.com>
  */
 "use strict";
@@ -8,7 +8,7 @@
   client = new ZmqRaftSubscriber('tcp://127.0.0.1:1234')
 
   client.on('data' => (snapshotChunkOrLogEntry) => {
-  
+
   })
   client.write(updateRequest)
 
@@ -108,7 +108,7 @@ class ZmqRaftSubscriber extends Duplex {
    * @param {Object} [options]
    * @return {ZmqRaftSubscriber}
   **/
-  constructor(urls, options) {
+  constructor(urls, options?) {
     if (urls && !isArray(urls) && 'object' === typeof urls) {
       options = urls, urls = undefined;
     }
@@ -373,7 +373,7 @@ class ZmqRaftSubscriber extends Duplex {
     this.isFresh = false;
     this.emit('stale', count);
 
-    return this._pendingMissing = new Promise((resolve, reject) => {
+    return this._pendingMissing = new Promise<void>((resolve, reject) => {
       var options = this.entriesStreamOptions;
       options.count = count;
       var rpcstream = this.client.requestEntriesStream(this.lastLogIndex, options);

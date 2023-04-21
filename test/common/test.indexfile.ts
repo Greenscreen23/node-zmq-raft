@@ -174,7 +174,7 @@ test('IndexFile', suite => {
         });
 
         return Promise.all([
-          new Promise((resolve, reject) => {
+          new Promise<void>((resolve, reject) => {
             var input = [], index = 0;
             var extractor = indexFile.createEntryExtractor(input, indexFile.firstAllowedIndex, indexFile.lastAllowedIndex)
             indexFile.createLogReadStream(indexFile.firstAllowedIndex, indexFile.lastAllowedIndex, 65536)
@@ -203,7 +203,7 @@ test('IndexFile', suite => {
               } catch(err) { reject(err); }
             });
           }),
-          new Promise((resolve, reject) => {
+          new Promise<void>((resolve, reject) => {
             var index = 0;
             indexFile.createLogEntryReadStream(indexFile.firstAllowedIndex, indexFile.lastAllowedIndex, 32768)
             .on('error', reject)

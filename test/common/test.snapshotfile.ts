@@ -88,7 +88,7 @@ test('SnapshotFile', suite => {
         t.equal(buf.compare(data, 0, 25), 0);
       });
     })
-    .then(() => new Promise((resolve, reject) => {
+    .then(() => new Promise<void>((resolve, reject) => {
       snapshot.createDataReadStream(100).on('error', reject).on('end', resolve)
       .on('data', chunk => {
         try {

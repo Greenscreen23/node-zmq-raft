@@ -216,7 +216,7 @@ test('FramesProtocol', suite => {
 
     t.equal(socket.pending, null);
     return Promise.all([
-      new Promise((resolve, reject) => {
+      new Promise<void>((resolve, reject) => {
         listener = protocol.createRouterMessageListener(router, (reply, args) => {
           try {
             t.type(reply, 'function');
@@ -248,7 +248,7 @@ test('FramesProtocol', suite => {
         });
         return promise.then(res => {
           t.type(res, Array);
-          t.type(res.length, 3);
+          t.type(res.length, 3 as any);
           t.type(res[0], Buffer);
           t.same(res[0], Buffer.from('baz'));
           t.same(res[1], {cat: "meow", "ary": [1,2,3]});
@@ -256,7 +256,7 @@ test('FramesProtocol', suite => {
         })
       })
       .then(() => {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
           socket.close();
           router.removeListener('frames', listener);
           router.unbind(url, err => {
@@ -273,7 +273,7 @@ test('FramesProtocol', suite => {
   suite.end();
 });
 
-function createZmqSocket(type, url) {
+function createZmqSocket(type, url?) {
   var sock = new ZmqSocket(type);
   sock.setsockopt(ZMQ_LINGER, 0);
   do {

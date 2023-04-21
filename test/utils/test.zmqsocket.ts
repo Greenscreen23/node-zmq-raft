@@ -25,7 +25,7 @@ test('router', suite => {
     var [router, url] = createZmqSocket('router');
     var socket = createZmqDealerSocket(url);
     return Promise.all([
-      new Promise((resolve, reject) => {
+      new Promise<void>((resolve, reject) => {
         router.on('frames', (args) => {
           try {
             t.type(args, Array);
@@ -39,7 +39,7 @@ test('router', suite => {
           } catch(e) { reject(e); }
         })
       }),
-      new Promise((resolve, reject) => {
+      new Promise<void>((resolve, reject) => {
         t.equal(socket.send("foo"), false);
         t.equal(socket._zmq.pending, true);
         socket.connect(url);
@@ -52,7 +52,7 @@ test('router', suite => {
         socket.on('frames', (frames) => {
           try {
             t.type(frames, Array);
-            t.type(frames.length, 2);
+            t.type(frames.length, 2 as any);
             t.type(frames[0], Buffer);
             t.type(frames[1], Buffer);
             t.equal(frames[0].toString(), "foo");
@@ -92,7 +92,7 @@ test('router', suite => {
     socket.connect(url);
     var reqcount = 0, sentmap = new Map([[0,0]]);
     return Promise.all([
-      new Promise((resolve, reject) => {
+      new Promise<void>((resolve, reject) => {
         router.on('frames', (args) => {
           try {
             t.type(args, Array);
@@ -123,7 +123,7 @@ test('router', suite => {
           } catch(e) { reject(e); }
         })
       }),
-      new Promise((resolve, reject) => {
+      new Promise<void>((resolve, reject) => {
         t.equal(socket.send(["ala","ma",Buffer.from("kota"),allocBufUIntLE(0),allocBufUIntLE(0)]), true);
         t.equal(socket._zmq.pending, false);
         var slab = crypto.randomBytes(150000);
@@ -147,7 +147,7 @@ test('router', suite => {
         socket.on('frames', (frames) => {
           try {
             t.type(frames, Array);
-            t.type(frames.length, 5);
+            t.type(frames.length, 5 as any);
             t.type(frames[0], Buffer);
             t.type(frames[1], Buffer);
             t.type(frames[2], Buffer);
@@ -183,7 +183,7 @@ test('router', suite => {
   suite.end();
 });
 
-function createZmqSocket(type, url) {
+function createZmqSocket(type, url?) {
   var sock = new ZmqSocket(type);
   sock.setsockopt(zmq.ZMQ_LINGER, 0);
   do {
@@ -207,7 +207,7 @@ function createZmqDealerSocket(url) {
 
 function asyncTimes(n, cb) {
   var index = 0;
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     var cycle = () => setImmediate(() => {
       try {
         if (--n === 0) {

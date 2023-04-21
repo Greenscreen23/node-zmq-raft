@@ -12,7 +12,7 @@ import readline from 'readline';
 exports.REPL = REPL;
 exports.readline = readline;
 
-exports.createRepl = function(opts) {
+export const createRepl = function(opts?) {
   opts = Object.assign({
       prompt: '> ',
       historySize: 1000
@@ -22,9 +22,9 @@ exports.createRepl = function(opts) {
   const temppath = histpath + '.tmp-' + process.pid;
 
   return readFile(histpath, 'utf8')
-  .then(hist => Array.from(new Set(hist.split(/[\n\r]+/).reverse())), err => { if (err.code === 'ENOENT') return []; else throw err; })
+  .then((hist: any) => Array.from(new Set(hist.split(/[\n\r]+/).reverse())), err => { if (err.code === 'ENOENT') return []; else throw err; })
   .then(history => {
-    var repl = REPL.start(opts);
+    var repl = REPL.start(opts) as any;
     repl.pause();
     repl.savingHistory = true;
     var writer = fs.createWriteStream(temppath, {flags: 'a'});
@@ -61,7 +61,7 @@ exports.createRepl = function(opts) {
 };
 
 function readFile(path, opts) {
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     fs.readFile(path, opts, (err, data) => {
       if (err) return reject(err);
       resolve(data);
@@ -70,7 +70,7 @@ function readFile(path, opts) {
 }
 
 function rename(oldPath, newPath) {
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     fs.rename(oldPath, newPath, err => {
       if (err) return reject(err);
       resolve();

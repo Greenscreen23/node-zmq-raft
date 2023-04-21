@@ -10,7 +10,7 @@ import colors from 'colors/safe';
 import raft from '..';
 const { SnapshotChunk } = raft.common;
 
-import { createRepl } from '../repl';
+import { createRepl } from '../lib/utils/repl';
 import { LogEntry, UpdateRequest } from '../lib/common/log_entry';
 import SnapshotFile from '../lib/common/snapshotfile';
 import ZmqRaftClient from '../lib/client/zmq_raft_client';
@@ -32,7 +32,7 @@ console.log("------------------------------");
 dns.lookup(os.hostname(), (err, address, family) => {
   const host = family == 4 ? address : `[${address}]`;
 
-  const url = process.argv[2] || `tcp://${host}:${((process.env.PORT || 8000) & 0xffff) + 1}`;
+  const url = process.argv[2] || `tcp://${host}:${((Number(process.env.PORT) || 8000) & 0xffff) + 1}`;
 
   createRepl().then(repl => {
     repl.on('exitsafe', () => {

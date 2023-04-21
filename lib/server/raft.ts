@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (c) 2016-2019 Rafał Michalski <royal@yeondir.com>
  */
 "use strict";
@@ -319,7 +319,7 @@ class ZmqRaft extends ReadyEmitter {
           }
         }
       })
-      .then(() => new Promise((resolve, reject) => {
+      .then(() => new Promise<void>((resolve, reject) => {
         var bindUrl = this.routerBindUrl = options.bindUrl || options.url || this.url;
         this._routerListener = dispatchProtocol.createRouterMessageListener(router, dispatchHandler, this);
         router.bind(bindUrl, err => {

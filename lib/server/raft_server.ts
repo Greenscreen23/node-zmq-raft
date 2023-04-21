@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (c) 2016-2018 Rafał Michalski <royal@yeondir.com>
  */
 "use strict";
@@ -149,7 +149,7 @@ export const requestUpdateHandler = function(reply, logData) {
 
   if (logData.length === 0 || logData.length > this.maxLogEntryDataSize) {
     debug('invalid request data in request update, ignoring');
-    return;    
+    return;
   }
 
   if (requestId.length !== 12) {
@@ -400,7 +400,7 @@ function lockAndSendSnapshot(sendReply, requestKey, snapshotOffset) {
       return lockAndSendSnapshot.call(this, sendReply, requestKey, snapshotOffset);
     }
     else {
-      return new Promise((resolve, reject) => {
+      return new Promise<void>((resolve, reject) => {
         sendSnapshot.call(this, sendReply, requestKey, snapshot, resolve, snapshotOffset);
       });
     }

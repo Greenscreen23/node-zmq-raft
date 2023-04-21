@@ -23,7 +23,7 @@ test('ZmqProtocolSocket', suite => {
     t.plan(14);
     var socket = new ZmqProtocolSocket(url);
     return Promise.all([
-      new Promise((resolve, reject) => {
+      new Promise<void>((resolve, reject) => {
         router.on('frames', (frames) => {
           try {
             let [src, id, msg] = frames;
@@ -79,7 +79,7 @@ test('ZmqProtocolSocket', suite => {
     var listener;
     var start = Date.now();
     return Promise.all([
-      new Promise((resolve, reject) => {
+      new Promise<void>((resolve, reject) => {
         router.on('frames', listener = (frames) => {
           try {
             let [src, id, msg] = frames;
@@ -146,7 +146,7 @@ test('ZmqProtocolSocket', suite => {
     var requestIdStr = 'deadbadbacabeefdeadbadba';
 
     return Promise.all([
-      new Promise((resolve, reject) => {
+      new Promise<void>((resolve, reject) => {
         router.on('error', err => reject(err));
         listener = protocol.createRouterMessageListener(router, (reply, args) => {
           try {
@@ -177,7 +177,7 @@ test('ZmqProtocolSocket', suite => {
           id: requestIdStr,
           onresponse: (res, reply, refresh) => {
             t.type(res, Array);
-            t.type(res.length, 3);
+            t.type(res.length, 3 as any);
             t.type(res[0], Buffer);
             t.equal(res[0].length, 3);
             t.same(res[1], {cat: "meow", "ary": [1,2,3]});
@@ -220,7 +220,7 @@ test('ZmqProtocolSocket', suite => {
     t.equal(socket.pendingRequests, 0);
     t.equal(socket.pendingQueues, 0);
     var promise = Promise.all([
-      new Promise((resolve, reject) => {
+      new Promise<void>((resolve, reject) => {
         var count = 8;
         router.on('frames', (frames) => {
           try {

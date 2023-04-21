@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (c) 2016-2017 Rafał Michalski <royal@yeondir.com>
  */
 "use strict";
@@ -343,7 +343,7 @@ function createSnapshotFile(filename, index, term, dataSize, reader) {
       .then(dataOffset => {
         if (reader) {
           const writer = createWriteStream(null, {fd: fd, autoClose: false, start: dataOffset});
-          const promise = new Promise((resolve, reject) => {
+          const promise = new Promise<void>((resolve, reject) => {
             writer.on('finish', resolve).on('error', reject);
           });
           reader.on('data', chunk => dataSize += chunk.length);
@@ -390,7 +390,7 @@ function readSnapshotFile(fd) {
     return findToken(fd, DATA, headerByteSize)
     .then(([dataOffset]) => fstat(fd).then(stat => {
       if (stat.size - dataOffset !== dataSize) throw new Error("readSnapshotFile: invalid snapshot file");
-      return [dataOffset, index, term, dataSize];      
+      return [dataOffset, index, term, dataSize];
     }));
   });
 }

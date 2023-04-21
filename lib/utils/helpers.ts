@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (c) 2016-2018 Rafał Michalski <royal@yeondir.com>
  */
 "use strict";
@@ -81,7 +81,7 @@ exports.defineConst = function(target, property, value) {
  * @return {Promise}
 **/
 exports.delay = function(timeout, result) {
-  return new Promise((resolve, reject) => setTimeout(resolve, timeout, result));
+  return new Promise<void>((resolve, reject) => setTimeout(resolve, timeout, result));
 };
 
 const spaces = (" ").repeat(256);
@@ -93,7 +93,7 @@ const spaces = (" ").repeat(256);
  * @param {string} [padder]
  * @return {string}
 **/
-exports.lpad = function(input, size, padder) {
+export const lpad = function(input, size, padder?) {
   var strlen = input.length;
   size >>= 0;
   if (strlen >= size) return input;
@@ -311,7 +311,7 @@ exports.validateIntegerOption = function(options, name, min, max) {
  * Returns `true` if the num is a power of two in the range of [1, 2^32].
  *
  * @param {number} num
- * @return {bool} 
+ * @return {bool}
 **/
 exports.isPowerOfTwo32 = function(num) {
   return (num - 1) >>> 0 === (num - 1) && num !== 0 && !(num & (num - 1))
@@ -321,7 +321,7 @@ exports.isPowerOfTwo32 = function(num) {
  * Returns the next power of two in the range of [1, 2^31]. Otherwise returns 0.
  *
  * @param {number} num
- * @return {number} 
+ * @return {number}
 **/
 exports.nextPowerOfTwo32 = function(num) {
   num = num >> 0;

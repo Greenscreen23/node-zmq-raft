@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (c) 2016-2017 Rafał Michalski <royal@yeondir.com>
  */
 "use strict";
@@ -70,7 +70,7 @@ class FilePersistence extends PersistenceBase {
 
         debug('file "%s" opened with flags: %s', filename, flags);
 
-        new Promise((resolve, reject) => {
+        new Promise<void>((resolve, reject) => {
           this[apply$](this[validate$](data));
 
           this[byteSize$]    = byteSize;
@@ -120,7 +120,7 @@ class FilePersistence extends PersistenceBase {
       })
       .on("end", () => {
         debug('finished reading: %s bytes', byteSize);
-        if (decodeStream.decoder.buffer && 
+        if (decodeStream.decoder.buffer &&
             decodeStream.decoder.buffer.length !== decodeStream.decoder.offset) {
           debug("unfinished chunk detected, a new file will be created on next update");
 
@@ -164,14 +164,14 @@ class FilePersistence extends PersistenceBase {
    * Implementations may call this method instead super.close() from synchronize callback:
    *
    * synchronize(this, () => this[Symbol.for('close')]());
-   * 
+   *
    * @return {Promise}
   **/
   [close$]() {
     var writeStream = this[writeStream$];
     this[writeStream$] = this[fd$] = null;
 
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       if (writeStream) {
         debug('closing');
         writeStream.end(resolve);
@@ -205,7 +205,7 @@ class FilePersistence extends PersistenceBase {
 
     return Promise.all([
 
-      new Promise((resolve, reject) => {
+      new Promise<void>((resolve, reject) => {
         var encoder = this[encoder$];
         encoder.write(data);
         var chunk = encoder.read();
@@ -225,7 +225,7 @@ class FilePersistence extends PersistenceBase {
         });
       }),
 
-      new Promise((resolve, reject) => {
+      new Promise<void>((resolve, reject) => {
         _writeStream.on('error', reject);
         _writeStream.end(resolve);
       })
@@ -279,7 +279,7 @@ class FilePersistence extends PersistenceBase {
     encoder.write(data);
     var chunk = encoder.read();
 
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       writeStream.on('error', reject);
       writeStream.write(chunk, () => {
         this[byteSize$] += chunk.byteLength;

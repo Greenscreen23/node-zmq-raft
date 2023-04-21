@@ -16,7 +16,7 @@ test('should have functions and properties', t => {
 });
 
 test('SnapshotChunk', t => {
-  var buf = Buffer.from([0xc0]);
+  var buf: any = Buffer.from([0xc0]);
   var chunk = new SnapshotChunk(buf, 1, 2, 3, 4);
   t.type(chunk, SnapshotChunk);
   t.type(chunk, Buffer);
@@ -46,7 +46,7 @@ test('SnapshotChunk', t => {
   t.equal(chunk.isLastChunk, false);
 
   t.test('bufferToSnapshotChunk', t => {
-    var buf = Buffer.from([0xc0]);
+    var buf: any = Buffer.from([0xc0]);
     var chunk = SnapshotChunk.bufferToSnapshotChunk(buf, 1, 0, 3, 1001);
     t.type(chunk, SnapshotChunk);
     t.type(chunk, Buffer);

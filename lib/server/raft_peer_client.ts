@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (c) 2016-2017 Rafał Michalski <royal@yeondir.com>
  */
 "use strict";
@@ -28,7 +28,7 @@ export const synchronizeLogEntries = function() {
   const close = () => client.destroy();
 
   return client.requestConfig()
-  .then(() => new Promise((resolve, reject) => {
+  .then(() => new Promise<void>((resolve, reject) => {
     var logwriter = log.createLogEntryWriteStream();
 
     client.requestEntriesStream(lastApplied)

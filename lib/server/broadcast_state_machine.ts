@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (c) 2016-2018 Rafał Michalski <royal@yeondir.com>
  */
 "use strict";
@@ -117,7 +117,7 @@ class BroadcastStateMachine extends FilePersistence {
   /* FilePersistence api */
 
   [Symbol.for('init')]() {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       this._fan.bind(this.bindUrl, err => {
         if (err) return reject(err);
         debug('ready at: %s', this.bindUrl);

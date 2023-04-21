@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (c) 2016-2018 Rafał Michalski <royal@yeondir.com>
  */
 "use strict";
@@ -83,7 +83,7 @@ class ReadyEmitter extends EventEmitter {
     else if (this[ready$]) {
       return (this[readyPromise$] = Promise.resolve(this));
     }
-    else return (this[readyPromise$] = new Promise((resolve, reject) => {
+    else return (this[readyPromise$] = new Promise<void>((resolve, reject) => {
       var ready = (res) => {
         this.removeListener('error', error);
         resolve(res);

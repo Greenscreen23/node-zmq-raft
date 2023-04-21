@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (c) 2016-2017 Rafał Michalski <royal@yeondir.com>
  */
 "use strict";
@@ -65,7 +65,7 @@ class LogStream extends Readable {
         return this.push(null);
       }
 
-      fileLog._indexFileOf(index, indexFile => new Promise((resolve, reject) => {
+      fileLog._indexFileOf(index, indexFile => new Promise<void>((resolve, reject) => {
         if (this._logStream === false) {
           /* already canceled */
           return resolve(); /* unlock indexFile */

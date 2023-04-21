@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (c) 2016-2020 Rafał Michalski <royal@yeondir.com>
  */
 "use strict";
@@ -158,7 +158,7 @@ class ZmqProtocolSocket extends ZmqBaseSocket {
   request(msg, options) {
     options || (options = {});
 
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       if (!this[connected$]) this.connect();
 
       const protocol = options.protocol || this.protocol;
@@ -339,7 +339,7 @@ class ZmqProtocolSocket extends ZmqBaseSocket {
   waitForQueues(timeout) {
     var queues = this[queues$];
     if (queues.size === 0) return Promise.resolve();
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       const socket = this.socket;
       var ts = setTimeout(() => {
         socket.removeListener('flushed', flush);

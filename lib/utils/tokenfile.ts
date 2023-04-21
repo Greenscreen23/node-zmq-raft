@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (c) 2016-2017 Rafał Michalski <royal@yeondir.com>
  */
 "use strict";
@@ -96,6 +96,10 @@ function createTokenFile(filename) {
 }
 
 class TokenFile {
+  public fd: any;
+  public promise: any;
+  public buffer: any;
+  public header: any;
   constructor(fd, position) {
     this.fd = fd;
     this.promise = Promise.resolve(position);
@@ -164,7 +168,7 @@ class TokenFile {
       buf.fill(0, TOKEN_HEADER_BYTE_SIZE + inputLength, TOKEN_HEADER_BYTE_SIZE + paddedLength);
 
       return write(fd, buf, 0, TOKEN_HEADER_BYTE_SIZE + paddedLength, position)
-      .then(bytesWritten => {
+      .then((bytesWritten: any) => {
         position += bytesWritten + additionalLength;
         if (additionalLength !== 0) {
           return ftruncate(fd, position).then(() => position);
@@ -209,7 +213,7 @@ class TokenFile {
     return this.findToken(token, parseInt(position) || 0, stop)
     .then(result => {
       if (!result) return null;
-      var [position, length] = result
+      var [position, length]: any = result
         , buffer = Buffer.allocUnsafe(length);
       return read(this.fd, buffer, 0, length, position)
       .then(() => buffer);

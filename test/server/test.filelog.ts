@@ -260,7 +260,7 @@ test('FileLog', suite => {
 
         return Promise.all([
           log.watchInstallSnapshot(snapnew)
-             .then(() => new Promise((resolve, reject) => {
+             .then(() => new Promise<void>((resolve, reject) => {
                 log.on('error', reject).once('snapshot', resolve);
              })),
           log.createTmpSnapshot(TOTAL_ENTRIES, 1111, 0).ready()
@@ -312,7 +312,7 @@ test('FileLog', suite => {
       t.equal(log.snapshot.dataSize, 0);
       t.equal(log.getFirstFreshIndex(), 1);
 
-      return new Promise((resolve, reject) => {
+      return new Promise<void>((resolve, reject) => {
         logentries = [];
         var hash = crypto.createHash('md5');
         var writer = log.createLogEntryWriteStream()
@@ -447,7 +447,7 @@ test('FileLog', suite => {
       t.equal(log.snapshot.logTerm, 77);
       t.equal(log.getFirstFreshIndex(), 0x1fffffff02);
 
-      return new Promise((resolve, reject) => {
+      return new Promise<void>((resolve, reject) => {
         var hash = crypto.createHash('md5')
             .once('readable', () => {
               try {
@@ -498,7 +498,7 @@ test('FileLog', suite => {
   suite.end();
 });
 
-function randomEntry(top, term, index) {
+function randomEntry(top, term, index?) {
   var data = crypto.randomBytes(1 + (Math.random()*top>>>0));
   return LogEntry.build(genIdent(), LOG_ENTRY_TYPE_STATE, term, data, index);
 }

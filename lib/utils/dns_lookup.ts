@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (c) 2017 Rafał Michalski <royal@yeondir.com>
  */
 "use strict";
@@ -59,7 +59,7 @@ function lookup(host, defaultPort) {
       hostname = os.hostname();
   }
 
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     dns.lookup(hostname, options, (err, addresses) => {
       if (err) return reject(err);
       resolve(addresses.map(({address, family}) => {

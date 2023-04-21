@@ -23,7 +23,7 @@ test('should be a function', t => {
 
 test('exclusive', t => {
   t.plan(16);
-  var scope = {};
+  var scope: any = {};
   t.type(exclusive(scope, () => t.ok(true)), Promise);
   var start = Date.now();
   return Promise.all([
@@ -39,7 +39,7 @@ test('exclusive', t => {
       t.equal(msg, "baaa");
     }),
 
-    exclusive(scope, () => new Promise((resolve, reject) => setImmediate(() => {
+    exclusive(scope, () => new Promise<number>((resolve, reject) => setImmediate(() => {
       t.equal(scope.tap, 1);
       scope.tap = 2;
       resolve(2);
@@ -80,7 +80,7 @@ test('exclusive', t => {
 
 test('shared', t => {
   t.plan(20);
-  var scope = {};
+  var scope: any = {};
   t.type(shared(scope, () => t.ok(true)), Promise);
   var start = Date.now();
   return Promise.all([

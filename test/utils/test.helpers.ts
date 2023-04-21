@@ -70,7 +70,7 @@ test('createRangeRandomizer', t => {
 });
 
 test('defineConst', t => {
-  var o = {}, x = [];
+  var o: any = {}, x = [];
   t.equal(helpers.defineConst(o, 'foo', x), x);
   t.equal(o.foo, x);
   t.throws(() => o.foo = null, TypeError);

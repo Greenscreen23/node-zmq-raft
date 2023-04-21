@@ -6,7 +6,7 @@ import { createOptions } from '../server/builder';
 import debugFactory from 'debug';
 const debug = debugFactory('config');
 
-export const readConfig = function readConfig(configFile, namespace) {
+export const readConfig = function readConfig(configFile, namespace?) {
   return Promise.resolve(configFile ? loadConfig(configFile) : {raft: {}})
                 .then(config => createOptions(getDeepProperty(config, namespace)));
 };

@@ -21,13 +21,13 @@ if (argv.length > 2) {
   var hosts = argv;
 }
 else {
-  var [numpeers, id] = argv;
+  var [numpeers, id]: any = argv;
 }
 
 numpeers>>>=0
 id>>>=0
 
-var port = (process.env.PORT || 8000) & 0xffff;
+var port = (Number(process.env.PORT) || 8000) & 0xffff;
 var dir;
 
 resolve().then(host => {
@@ -61,8 +61,8 @@ resolve().then(host => {
   assert(numpeers > 0 && numpeers <= 100);
   assert(id > 0 && id <= numpeers);
 
-  var options = {secret: process.env.SECRET || 'kiełbasa'};
-  var me = genpeer(id);
+  var options: any = {secret: process.env.SECRET || 'kiełbasa'};
+  var me: any = genpeer(id);
   var myId = me.id;
   var peers = [];
   for(let i = 0; i < numpeers; ++i) peers.push(genpeer(i + 1));
@@ -79,10 +79,10 @@ resolve().then(host => {
   console.log(`directory: ${colors.magenta(dir)}`);
   mkdirp.sync(dir);
 
-  var persistence = new RaftPersistence(path.join(dir, 'raft.pers'), peers);
-  var log = new FileLog(path.join(dir, 'log'), path.join(dir, 'snap'));
+  var persistence: any = new RaftPersistence(path.join(dir, 'raft.pers'), peers);
+  var log: any = new FileLog(path.join(dir, 'log'), path.join(dir, 'snap'));
   if (me.pub.bindUrl) options.bindUrl = me.pub.bindUrl;
-  var stateMachine = new BroadcastStateMachine(path.join(dir, 'state.pers'), me.pub.url, options);
+  var stateMachine: any = new BroadcastStateMachine(path.join(dir, 'state.pers'), me.pub.url, options);
 
   return Promise.all([log.ready(),stateMachine.ready(),persistence.ready()]).then(() => {
     var promises = [];
@@ -107,7 +107,7 @@ resolve().then(host => {
       process.exit();
     });
     raft.on('state', (state, currentTerm) => {
-      console.log('state: %s term: %s', colors.bgGreen.black(state), colors.cyan(currentTerm));
+      console.log('state: %s term: %s', state, currentTerm);
     });
 
     return Promise.all([raft.ready()]).then(raft => {
@@ -116,14 +116,14 @@ resolve().then(host => {
     });
   });
 }).catch(err => {
-  console.warn(colors.bgRed.yellow("FATAL ERROR"));
+  console.warn("FATAL ERROR");
   console.warn(err.stack)
 });
 
 
 
-function resolve(hostname) {
-  return new Promise((resolve, reject) => {
+function resolve(hostname?) {
+  return new Promise<any>((resolve, reject) => {
     dns.lookup(hostname || os.hostname(), (err, address, family) => {
       if (err) return reject(err);
       resolve(family == 4 ? address : `[${address}]`);

@@ -17,7 +17,7 @@ test('should be a function', t => {
 
 test('synchronize', t => {
   t.plan(18);
-  var scope = {};
+  var scope: any = {};
   t.type(synchronize(scope, () => t.ok(true)), Promise);
   var start = Date.now();
   return Promise.all([
@@ -33,7 +33,7 @@ test('synchronize', t => {
       t.equal(msg, "baaa");
     }),
 
-    synchronize(scope, () => new Promise((resolve, reject) => setImmediate(() => {
+    synchronize(scope, () => new Promise<number>((resolve, reject) => setImmediate(() => {
       t.equal(scope.tap, 1);
       scope.tap = 2;
       resolve(2);

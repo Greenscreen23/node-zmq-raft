@@ -31,7 +31,7 @@ class PassThroughState extends StateMachineBase {
     var writeStream = this.snapshotReadStream;
     this.snapshotReadStream = null;
     if (!writeStream) return Promise.resolve();
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       writeStream.on('error', reject).end(resolve);
     });
   }
@@ -46,7 +46,7 @@ class PassThroughState extends StateMachineBase {
     var promise;
 
     if (snapshot) {
-      promise = new Promise((resolve, reject) => {
+      promise = new Promise<void>((resolve, reject) => {
         this.on('error', reject);
         var snapshotStream = snapshot.createDataReadStream().on('error', reject);
         if (this.unzipSnapshot) {
@@ -77,7 +77,7 @@ class PassThroughState extends StateMachineBase {
         return this.lastApplied = lastApplied;
       }
       else {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
           this.on('error', reject);
           writeStream.once('drain', () => {
             this.removeListener('error', reject);

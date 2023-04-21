@@ -6,3 +6,12 @@ export const common = require('./lib/common');
 export const protocol = require('./lib/protocol');
 export const utils = require('./lib/utils');
 export const server = require('./lib/server');
+
+export default {
+    api,
+    client,
+    common,
+    protocol,
+    utils,
+    server
+}

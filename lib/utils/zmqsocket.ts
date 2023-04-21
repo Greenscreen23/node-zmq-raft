@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (c) 2016-2017 Rafał Michalski <royal@yeondir.com>
  */
 "use strict";
@@ -27,7 +27,7 @@ import assert from 'assert';
 const isArray = Array.isArray
     , isBuffer = Buffer.isBuffer;
 
-import { Socket, ZMQ_SNDMORE } from 'zeromq';
+import { Socket } from 'zeromq';
 
 const toBuffer = (buf) => (isBuffer(buf) ? buf
                                          : Buffer.from('string' === typeof buf ? buf : String(buf)));
@@ -49,6 +49,8 @@ const toBuffer = (buf) => (isBuffer(buf) ? buf
 
 */
 class ZmqSocket extends Socket {
+  public _zmq: any;
+  public _paused: boolean
   /**
    * Creates a new socket.
    *
@@ -137,7 +139,7 @@ class ZmqDealerSocket extends ZmqSocket {
    * @return {bool} true if send was successfull or false if zmq queue is full
    * @api public
   **/
-  send(msg) {
+  send(msg): any {
     const zmq = this._zmq;
     /* disable drain events */
     zmq.pending = false;
@@ -149,7 +151,7 @@ class ZmqDealerSocket extends ZmqSocket {
         , last = msg.length - 1;
       if (last < 0) throw new Error("zmq.send: no message to send");
       while (i < last) {
-        content.push(toBuffer(msg[i++]), ZMQ_SNDMORE);
+        content.push(toBuffer(msg[i++]), 2);
       }
       content.push(toBuffer(msg[i]), 0);
     }

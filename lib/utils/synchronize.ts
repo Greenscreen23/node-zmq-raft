@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (c) 2016 Rafał Michalski <royal@yeondir.com>
  *  License: LGPL
  */
@@ -58,7 +58,7 @@ function synchronize(scope, timeout, callback) {
     ret = Promise.resolve().then(callback);
   }
   else {
-    ret = new Promise((resolve, reject) => {
+    ret = new Promise<void>((resolve, reject) => {
       setTimeout(() => reject('timeout'), timeout);
       promise.then(resolve, resolve);
     }).then(callback);

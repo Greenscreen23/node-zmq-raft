@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (c) 2016-2017 Rafał Michalski <royal@yeondir.com>
  */
 "use strict";
@@ -143,7 +143,7 @@ class ZmqRpcSocket {
   **/
   request(req, timeoutMs) {
     if (this[pending$]) return Promise.reject(new Error('ZmqRpcSocket: another request pending'));
-    return (this[pending$] = new Promise((resolve, reject) => {
+    return (this[pending$] = new Promise<void>((resolve, reject) => {
       if (!this[connected$]) this.connect();
 
       const socket = this.socket;
@@ -333,7 +333,7 @@ class ZmqRpcSocket {
       debug("rpc.disconnect: %s", url);
       socket.disconnect(url);
       this[connected$] = false;
-    }    
+    }
   }
 
 }

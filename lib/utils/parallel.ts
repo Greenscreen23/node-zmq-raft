@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (c) 2016 Rafał Michalski <royal@yeondir.com>
  */
 "use strict";
@@ -20,7 +20,7 @@ export default function parallel(callback) {
   var results = new Array(count);
   var cbs = [];
   var done = 0;
-  var promise = new Promise((resolve, reject) => {
+  var promise = new Promise<void>((resolve, reject) => {
     times(count, index => {
       cbs.push(function(err, res) {
         if (err != null) {

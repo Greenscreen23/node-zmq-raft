@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (c) 2020 Rafał Michalski <royal@yeondir.com>
  */
 "use strict";
@@ -93,9 +93,9 @@ OutOfOrderError.prototype.isOutOfOrder = true;
 class ZmqRaftPeerClient extends ZmqProtocolSocket {
   /**
    * Create an instance of ZmqRaftPeerClient.
-   * 
+   *
    * `options`:
-   * 
+   *
    * - `url` {string}: A single cluster peer url to connect directly to.
    * - `urls` {Array<string>}: An array of url peers; each request will be send to each one of them
    *                           in a round-robin order.
@@ -113,7 +113,7 @@ class ZmqRaftPeerClient extends ZmqProtocolSocket {
    *                   so if one of the peers goes down this many messages are possibly lost;
    *                   setting it prevents spamming a peer with expired messages when temporary
    *                   network partition occures (default: 2).
-   * 
+   *
    * @param {string|Array<string>} [urls]
    * @param {Object} [options]
    * @return {ZmqRaftPeerClient}
@@ -138,7 +138,7 @@ class ZmqRaftPeerClient extends ZmqProtocolSocket {
 
   /**
    * Disconnect, close socket and reject all pending requests.
-   * 
+   *
    * @return {ZmqRaftPeerClient}
   **/
   close() {
@@ -149,18 +149,18 @@ class ZmqRaftPeerClient extends ZmqProtocolSocket {
 
   /**
    * Create a cancellable time delay promise.
-   * 
+   *
    * The promise will resolve to the given `result` after the `ms` milliseconds.
    * If the client would be closed before the promise is resolved, the promise
    * will be rejected immediately with an Error.
-   * 
+   *
    * @param {number} ms - delay interval in milliseconds.
    * @param {any} [result] - the resolve argument.
    * @return {Promise}
   **/
   delay(ms, result) {
     var ts = this[timeout$];
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       var cancel = (err) => {
         clearTimeout(timeout);
         ts.delete(cancel);
@@ -176,12 +176,12 @@ class ZmqRaftPeerClient extends ZmqProtocolSocket {
 
   /**
    * Invoke RequestConfig RPC.
-   * 
+   *
    * The returned promise resolves to an Object with the following properties on success:
    * - `leaderId` {string|null} - ID of the current LEADER, if it's known to the responding peer.
    * - `isLeader` {boolean} - indicates the LEADER state of the responding peer.
    * - `peers` {Array<[id, url]>} - the current cluster configuration.
-   * 
+   *
    * @param {int32} [timeout] - an override for the response timeout in milliseconds;
    *                the promise is rejected with TimeoutError on timeout;
    *                if this is 0, null or undefined, default timeout is used instead.
@@ -197,9 +197,9 @@ class ZmqRaftPeerClient extends ZmqProtocolSocket {
 
   /**
    * Invoke RequestLogInfo RPC.
-   * 
+   *
    * The returned promise resolves to an Object with the following properties:
-   * 
+   *
    *  - `isLeader` {boolean}
    *  - `leaderId` {string|null}
    *  - `currentTerm` {number}
@@ -209,7 +209,7 @@ class ZmqRaftPeerClient extends ZmqProtocolSocket {
    *  - `lastIndex` {number}
    *  - `snapshotSize` {number}
    *  - `pruneIndex` {number}
-   * 
+   *
    * @param {int32} [timeout] - an override for the response timeout in milliseconds;
    *                the promise is rejected with TimeoutError on timeout;
    *                if this is 0, null or undefined, default timeout is used instead.
@@ -252,20 +252,20 @@ class ZmqRaftPeerClient extends ZmqProtocolSocket {
 
   /**
    * Invoke ConfigUpdate RPC.
-   * 
+   *
    * The returned promise resolves to the log index of the committed entry of Cold,new on success.
-   * 
+   *
    * The promise is rejected with the PeerNotLeaderError if the server peer responds but its
    * current raft state is other than the LEADER.
-   * 
+   *
    * `id` must be a 12 byte buffer or 24 byte unique hexadecimal string, following this:
    * https://docs.mongodb.com/manual/reference/method/ObjectId/ specification.
    * `id` should be freshly generated. Its "the seconds" part is important
    * because update requests might expire after `common.constants.DEFAULT_REQUEST_ID_TTL`
    * milliseconds.
-   * 
+   *
    * You may use `utils.id.genIdent()` function to generate them.
-   * 
+   *
    * @param {string|Buffer} id - a request ID to ensure idempotent updates.
    * @param {Array|Buffer} peers - the new cluster configuration.
    * @param {int32} [timeout] - an override for the response timeout in milliseconds;
@@ -322,20 +322,20 @@ class ZmqRaftPeerClient extends ZmqProtocolSocket {
 
   /**
    * Invoke RequestUpdate RPC.
-   * 
+   *
    * The returned promise resolves to the log index of the committed entry.
-   * 
+   *
    * The promise is rejected with the PeerNotLeaderError if the server peer responds but its
    * current raft state is other than the LEADER.
-   * 
+   *
    * `id` must be a 12 byte buffer or 24 byte unique hexadecimal string, following this:
    * https://docs.mongodb.com/manual/reference/method/ObjectId/ specification.
    * `id` should be freshly generated. Its "the seconds" part is important
    * because update requests might expire after `common.constants.DEFAULT_REQUEST_ID_TTL`
    * milliseconds.
-   * 
+   *
    * You may use `utils.id.genIdent()` function to generate them.
-   * 
+   *
    * @param {string|Buffer} id - a request ID to ensure idempotent updates.
    * @param {Buffer} data - log entry data to modify the state.
    * @param {int32} [timeout] - an override for the response timeout in milliseconds;
@@ -378,43 +378,43 @@ class ZmqRaftPeerClient extends ZmqProtocolSocket {
 
   /**
    * Perform RequestEntries RPC.
-   * 
+   *
    * Retrieve RAFT log entries using the `receiver` callback.
-   * 
+   *
    * The received entries must be consumed ASAP and the retrieving of them can not be paused.
    * However it is possible to cancel the request while processing entries.
-   * 
+   *
    * Use ZmqRaftPeerClient.prototype.requestEntriesStream to work with the back-pressured streams instead.
-   * 
+   *
    * The returned promise will resolve to `true` if all of the requested entries were received.
    * Otherwise the promise will resolve to `false` if the request was canceled by the receiver.
-   * 
+   *
    * The promise is rejected with the PeerNotLeaderError if the server peer responds but its
    * current raft state is other than the LEADER. It may be possible even if some entries have
    * been already received.
-   * 
+   *
    * If the promise is rejected with any error, that error will have a property `requestEntriesState`
    * set to a value with the following properties:
    * - lastIndex {number}
    * - [count] {number}
    * - [snapshotOffset] {number}
    * which can be used for the request continuation.
-   * 
+   *
    * The `receiver` function may modify its entries array argument (e.g. clear it).
    * The `receiver` may request to stop receiving entries if the function returns `false`
    * (that is an exact boolean `false`, not a falsy-ish value).
-   * 
+   *
    * The `receiver` function signature:
    *   (status: number, entries_or_snapshot_chunk: Array|Buffer, lastIndex: number,
    *    byteOffset?: number, snapshotSize?: number, isLastChunk?: boolean, snapshotTerm?: number
    *   ) => false|any
-   * 
+   *
    * The `status` in this case may be one of:
-   * 
+   *
    * - 1: this is the last batch.
    * - 2: expect more entries.
    * - 3: this is a snapshot chunk.
-   * 
+   *
    * @param {number} lastIndex - index of the log entry PRECEDING entries that are actually requested
    *                             (e.g. the index of the last received entry), specify 0 to start from 1.
    * @param {number} [count] - the maximum number of requested entries, only valid if > 0; otherwise ignored.
@@ -557,29 +557,29 @@ class ZmqRaftPeerClient extends ZmqProtocolSocket {
 
   /**
    * Returns a Readable stream that retrieves RAFT log entries via the RequestEntries RPC.
-   * 
+   *
    * The returned stream is lazy: RequestEntries RPC messages are sent to the peer server only
    * when data is requested via stream.Readable api.
-   * 
+   *
    * The returned stream can be back-pressured.
-   * 
+   *
    * The stream yields objects that are instances of either common.LogEntry or common.SnapshotChunk.
-   * 
+   *
    * The stream will emit an "error" event with the PeerNotLeaderError if the server peer responds
    * but its current raft state is other than the LEADER. It may be possible even if some entries have
    * been already received.
-   * 
+   *
    * `options`:
-   * 
+   *
    * - `count` {number} - the maximum number of requested entries, only valid if > 0; otherwise ignored.
    * - `timeout` {int32} - an override for the response timeout in milliseconds;
    *                       the stream will emit an "error" event with TimeoutError on timeout;
    *                       if this is 0, null or undefined, default timeout is used instead.
    * - `snapshotOffset` {number} - a hint for the server to start responding with snapshot chunks starting
    *                  from this byte offset, providing the `lastIndex` precedes the actual snapshot index.
-   * 
+   *
    * Any other option is passed to the Readable constructor.
-   * 
+   *
    * @param {number} lastIndex - index of the log entry PRECEDING entries that are actually requested
    *                             (e.g. the index of the last received entry), specify 0 to start from 1.
    * @param {Object|number} [options|count]
