@@ -7,11 +7,9 @@ const isArray = Array.isArray
     , random = Math.random
     , toString = {}.toString;
 
-const parseUrl = require('url').parse;
-
-const { isIP } = require('net');
-
-const assert = require('assert');
+import { parse as parseUrl } from 'url';
+import { isIP } from 'net';
+import assert from 'assert';
 
 /* a mischievous place where non strong typed languages live */
 

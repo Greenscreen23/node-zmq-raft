@@ -3,29 +3,47 @@
  */
 "use strict";
 
-const assert = require('assert')
-    , os = require('os')
-    , fs = require('fs')
-    , { createWriteStream, createReadStream } = fs
-    , path = require('path')
-    , mp = require('msgpack-lite')
+import assert from 'assert';
+import os from 'os';
+import fs from 'fs';
+import path from 'path';
+import mp from 'msgpack-lite';
 
-const debug = require('debug')('zmq-raft:snapshotfile');
+const { createWriteStream, createReadStream } = fs;
 
+import debugFactory from 'debug';
+const debug = debugFactory('zmq-raft:snapshotfile');
 
-const { open, openDir, close, closeDir, fdatasync, ftruncate, fstat,
-        fsyncDirFileCloseDir, link, mkdirp, read, renameSyncDir, write} = require('../utils/fsutil');
+import {
+  open,
+  openDir,
+  close,
+  closeDir,
+  fdatasync,
+  ftruncate,
+  fstat,
+  fsyncDirFileCloseDir,
+  link,
+  mkdirp,
+  read,
+  renameSyncDir,
+  write,
+} from '../utils/fsutil';
 
-const { defineConst } = require('../utils/helpers');
+import { defineConst } from '../utils/helpers';
 
-const { TOKEN_HEADER_SIZE
-      , TOKEN_HEADER_BYTE_SIZE
-      , BYTES_PER_ELEMENT
-      , TokenFile, tokenToUint32, findToken, createTokenFile } = require('../utils/tokenfile');
+import {
+  TOKEN_HEADER_SIZE,
+  TOKEN_HEADER_BYTE_SIZE,
+  BYTES_PER_ELEMENT,
+  TokenFile,
+  tokenToUint32,
+  findToken,
+  createTokenFile,
+} from '../utils/tokenfile';
 
-const { mixin: mixinHistoryRotation, createRotateName } = require('../utils/filerotate');
-
-const ReadyEmitter = require('../common/readyemitter');
+import { mixin as mixinHistoryRotation, createRotateName } from '../utils/filerotate';
+import ReadyEmitter from '../common/readyemitter';
 
 const VERSION = 1
     , HEADER_SIZE = 9
@@ -297,7 +315,7 @@ defineConst(SnapshotFile, 'VERSION', VERSION);
 
 mixinHistoryRotation(SnapshotFile.prototype, debug);
 
-module.exports = exports = SnapshotFile;
+export default exports = SnapshotFile;
 
 /* utils */
 

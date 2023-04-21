@@ -1,38 +1,37 @@
-#!/usr/bin/env node
-"use strict";
+#!/usr/bin/env node"use strict";
+
 /*
  * BIN console
  *
  * Author: Rafal Michalski (c) 2017-2020
  */
 
-const assert = require('assert');
-const os = require('os');
-const dns = require('dns');
-const fs = require('fs');
-const path = require('path');
-const util = require('util');
-const crypto = require('crypto');
-const { createUnzip } = require('zlib');
+import assert from 'assert';
+
+import os from 'os';
+import dns from 'dns';
+import fs from 'fs';
+import path from 'path';
+import util from 'util';
+import crypto from 'crypto';
+import { createUnzip } from 'zlib';
 
 const defaultConfig = path.join(__dirname, '..', 'config', 'console.hjson');
 
-const debug = require('debug')('zmq-raft:console');
+import debugFactory from 'debug';
+const debug = debugFactory('zmq-raft:console');
 
 const isArray = Array.isArray;
 
-const pkg = require('../package.json');
+import pkg from '../package.json';
+import ben from 'ben';
+import colors from 'colors/safe';
 
-const ben = require('ben');
+const { cyan, green, grey, magenta, red, yellow, bgGreen } = colors;
 
-const colors = require('colors/safe')
-    , { cyan, green, grey, magenta, red, yellow, bgGreen } = colors;
-
-const msgpack = require('msgpack-lite');
-
-const lookup = require('../lib/utils/dns_lookup').hostsToZmqUrls;
-
-const raft = require('..');
+import msgpack from 'msgpack-lite';
+import { hostsToZmqUrls as lookup } from '../lib/utils/dns_lookup';
+import raft from '..';
 
 const { genIdent } = raft.utils.id;
 const { ZmqRaftPeerClient
@@ -42,13 +41,9 @@ const { ZmqRaftPeerClient
 const { LOG_ENTRY_TYPE_STATE, LOG_ENTRY_TYPE_CONFIG, LOG_ENTRY_TYPE_CHECKPOINT
       , readers: { readTypeOf, readTermOf, readDataOf } } = raft.common.LogEntry;
 
-const { createRepl } = require('../lib/utils/repl');
-const { listPeers
-      , showInfo
-      , argToBoolean
-      , prompt
-      , replError } = require('../lib/utils/repl_helpers');
-const { readConfig } = require('../lib/utils/config');
+import { createRepl } from '../lib/utils/repl';
+import { listPeers, showInfo, argToBoolean, prompt, replError } from '../lib/utils/repl_helpers';
+import { readConfig } from '../lib/utils/config';
 
 const argv = process.argv.slice(2);
 

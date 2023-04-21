@@ -4,10 +4,10 @@
  */
 "use strict";
 
-const test = require('tap').test;
-const path = require('path');
-const crypto = require('crypto');
-const raft = require('../..');
+import { test } from 'tap';
+import path from 'path';
+import crypto from 'crypto';
+import raft from '../..';
 const { delay } = raft.utils.helpers;
 const { exclusive, shared } = raft.utils.lock;
 const { open, close, read, write, unlink } = raft.utils.fsutil;

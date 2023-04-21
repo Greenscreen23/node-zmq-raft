@@ -6,31 +6,20 @@
 
 if (require.main !== module) throw new Error("zr-tool.js must be run directly from node");
 
-const path = require('path')
-    , fs = require('fs')
-    , assert = require('assert')
-    , { EOL } = require('os')
-    , { format } = require('util')
-    , { Writable, Transform, PassThrough } = require('stream');
-
-const { createUnzip, Z_BEST_COMPRESSION } = require('zlib');
-
-const mp = require('msgpack-lite');
-
-const program = require('commander')
-    , debug = require('debug')('zmq-raft:tool');
-
-const pkg = require('../package.json');
-
-const raft = require('..');
-
-const {
-      FTYPE_DIRECTORY
-    , FTYPE_FILE
-    , FTYPE_INDEXFILE
-    , FTYPE_SNAPSHOTFILE
-    , detect
-    } = require('../lib/utils/filetype');
+import path from 'path';
+import fs from 'fs';
+import assert from 'assert';
+import { EOL } from 'os';
+import { format } from 'util';
+import { Writable, Transform, PassThrough } from 'stream';
+import { createUnzip, Z_BEST_COMPRESSION } from 'zlib';
+import mp from 'msgpack-lite';
+import program from 'commander';
+import debugFactory from 'debug';
+const debug = debugFactory('zmq-raft:tool');
+import pkg from '../package.json';
+import raft from '..';
+import { FTYPE_DIRECTORY, FTYPE_FILE, FTYPE_INDEXFILE, FTYPE_SNAPSHOTFILE, detect } from '../lib/utils/filetype';
 
 const { server: { FileLog }
       , common: { SnapshotFile, IndexFile, FilePersistence
@@ -52,11 +41,11 @@ program
   .option('-o, --output <file>', 'an output file, by default the output goes to stdout')
   .option('-s, --snapshot <path>', 'an alternative path to a snapshot file (FileLog)', 'snap')
   .option('-l, --log <path>', 'an alternative path to a log sub-directory (FileLog)', 'log')
-  // .option('-y, --yes', 'confirm dangerous operation')
-  // .option('-j, --data <json>', 'appended data')
-  // .option('-f, --from <file>', 'appended data filename')
-  // .option('-Z, --no-zip', 'do not zip when creating snapshot')
-  // .option('-t, --term <term>', 'raft term')
+// .option('-y, --yes', 'confirm dangerous operation')
+// .option('-j, --data <json>', 'appended data')
+// .option('-f, --from <file>', 'appended data filename')
+// .option('-Z, --no-zip', 'do not zip when creating snapshot')
+// .option('-t, --term <term>', 'raft term')
 
 program.command('dump <file>').alias('d')
   .description('dump the content of a snapshot, state or a log index file')

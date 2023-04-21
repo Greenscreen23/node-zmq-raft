@@ -1,20 +1,18 @@
 "use strict";
 
-const assert = require('assert');
-const os = require('os');
-const fs = require('fs');
-const path = require('path');
-const dns = require('dns');
-const cluster = require('cluster');
-const util = require('util');
-
-const colors = require('colors/safe');
-const mkdirp = require('mkdirp');
-
-const Raft = require('../lib/server/raft');
-const FileLog = require('../lib/server/filelog');
-const BroadcastStateMachine = require('../lib/server/broadcast_state_machine');
-const RaftPersistence = require('../lib/server/raft_persistence');
+import assert from 'assert';
+import os from 'os';
+import fs from 'fs';
+import path from 'path';
+import dns from 'dns';
+import cluster from 'cluster';
+import util from 'util';
+import colors from 'colors/safe';
+import mkdirp from 'mkdirp';
+import Raft from '../lib/server/raft';
+import FileLog from '../lib/server/filelog';
+import BroadcastStateMachine from '../lib/server/broadcast_state_machine';
+import RaftPersistence from '../lib/server/raft_persistence';
 const tmpdir = path.resolve(__dirname, '..', 'tmp');
 
 const argv = process.argv.slice(2);

@@ -1,8 +1,8 @@
 "use strict";
 
-exports.api     = require('./lib/api');
-exports.client  = require('./lib/client');
-exports.common  = require('./lib/common');
-exports.protocol= require('./lib/protocol');
-exports.utils   = require('./lib/utils');
-exports.server  = require('./lib/server');
+export const api = require('./lib/api');
+export const client = require('./lib/client');
+export const common = require('./lib/common');
+export const protocol = require('./lib/protocol');
+export const utils = require('./lib/utils');
+export const server = require('./lib/server');

@@ -1,16 +1,13 @@
-#!/usr/bin/env node
-"use strict";
+#!/usr/bin/env node"use strict";
 
 if (require.main !== module) throw new Error("zmq-monitor.js must be run directly from node");
 
-const { format } = require('util');
-
-const { red, bgGreen, grey } = require('colors/safe');
-
-const program = require('commander')
-    , debug = require('debug')('zmq-monitor');
-
-const raft = require('..');
+import { format } from 'util';
+import { red, bgGreen, grey } from 'colors/safe';
+import program from 'commander';
+import debugFactory from 'debug';
+const debug = debugFactory('zmq-monitor');
+import raft from '..';
 const { lpad } = raft.utils.helpers;
 
 program

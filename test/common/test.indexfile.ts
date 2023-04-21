@@ -4,12 +4,11 @@
  */
 "use strict";
 
-const fs = require('fs')
-    , path = require('path')
-    , crypto = require('crypto')
-const test = require('tap').test;
-
-const raft = require('../..');
+import fs from 'fs';
+import path from 'path';
+import crypto from 'crypto';
+import { test } from 'tap';
+import raft from '../..';
 const { IndexFile } = raft.common;
 
 const tempDir = fs.mkdtempSync(path.join(__dirname, '..', '..', 'tmp', 'idxfile.'));

@@ -3,9 +3,9 @@
  */
 "use strict";
 
-const assert = require('assert')
-    , path   = require('path')
-    , { watch, constants: { R_OK, W_OK } } = require('fs')
+import assert from 'assert';
+import path from 'path';
+import { watch, constants } from 'fs';
 
 const isArray = Array.isArray
     , isBuffer = Buffer.isBuffer
@@ -16,29 +16,31 @@ const isArray = Array.isArray
     , push = Array.prototype.push
     , MAX_SAFE_INTEGER = Number.MAX_SAFE_INTEGER
 
-const { DEFAULT_REQUEST_ID_TTL, MIN_REQUEST_ID_TTL, MAX_REQUEST_ID_TTL } = require('../common/constants');
+import { DEFAULT_REQUEST_ID_TTL, MIN_REQUEST_ID_TTL, MAX_REQUEST_ID_TTL } from '../common/constants';
+import { access, readdir, openDir, closeDir, mkdirp, renameSyncDir } from '../utils/fsutil';
 
-const { access, readdir, openDir, closeDir, mkdirp, renameSyncDir} = require('../utils/fsutil');
+import {
+  assertConstantsDefined,
+  defineConst,
+  delay,
+  regexpEscape,
+  validateIntegerOption,
+  createOptionsFactory,
+  isPowerOfTwo32,
+  nextPowerOfTwo32,
+} from '../utils/helpers';
 
-const { assertConstantsDefined, defineConst, delay, regexpEscape
-      , validateIntegerOption, createOptionsFactory
-      , isPowerOfTwo32, nextPowerOfTwo32 } = require('../utils/helpers');
-
-const { writeBufUIntLE, readBufUIntLE } = require('../utils/bufconv');
-
-const { createRotateName } = require('../utils/filerotate');
-
-const synchronize = require('../utils/synchronize');
-const { exclusive: lockExclusive, shared: lockShared } = require('../utils/lock');
-
-const { createTempName, cleanupTempFiles } = require('../utils/tempfiles');
-
-const ReadyEmitter = require('../common/readyemitter');
-const StateMachineWriter = require('../common/state_machine_writer');
-const IndexFile = require('../common/indexfile');
-const SnapshotFile = require('../common/snapshotfile');
-const LogStream = require('../server/logstream');
-const LogWriter = require('../server/logwriter');
+import { writeBufUIntLE, readBufUIntLE } from '../utils/bufconv';
+import { createRotateName } from '../utils/filerotate';
+import synchronize from '../utils/synchronize';
+import { exclusive as lockExclusive, shared as lockShared } from '../utils/lock';
+import { createTempName, cleanupTempFiles } from '../utils/tempfiles';
+import ReadyEmitter from '../common/readyemitter';
+import StateMachineWriter from '../common/state_machine_writer';
+import IndexFile from '../common/indexfile';
+import SnapshotFile from '../common/snapshotfile';
+import LogStream from '../server/logstream';
+import LogWriter from '../server/logwriter';
 
 const { logPathComponents, logBaseName, logPath
       , INDEX_FILENAME_LENGTH
@@ -60,19 +62,21 @@ const INSTALL_SNAPSHOT_WATCHER_COOLDOWN_INTERVAL = 10000;
 
 const MIN_REQUEST_ID_CACHE_HW = 1;
 
-const { REQUEST_LOG_ENTRY_OFFSET
-      , REQUEST_LOG_ENTRY_LENGTH
-      , REQUEST_LOG_ENTRY_BASE64_LENGTH
-      , TYPE_LOG_ENTRY_OFFSET
-      , TERM_LOG_ENTRY_OFFSET
-      , LOG_ENTRY_HEADER_SIZE
-      , LOG_ENTRY_TYPE_STATE
-      , LOG_ENTRY_TYPE_CONFIG
-      , LOG_ENTRY_TYPE_CHECKPOINT
-      , makeHasRequestExpired
-      , readers: { readTypeOf }
-      , mixinReaders
-      , LogEntry } = require('../common/log_entry');
+import {
+  REQUEST_LOG_ENTRY_OFFSET,
+  REQUEST_LOG_ENTRY_LENGTH,
+  REQUEST_LOG_ENTRY_BASE64_LENGTH,
+  TYPE_LOG_ENTRY_OFFSET,
+  TERM_LOG_ENTRY_OFFSET,
+  LOG_ENTRY_HEADER_SIZE,
+  LOG_ENTRY_TYPE_STATE,
+  LOG_ENTRY_TYPE_CONFIG,
+  LOG_ENTRY_TYPE_CHECKPOINT,
+  makeHasRequestExpired,
+  readers,
+  mixinReaders,
+  LogEntry,
+} from '../common/log_entry';
 
 const REQUEST_LOG_ENTRY_END = REQUEST_LOG_ENTRY_OFFSET + REQUEST_LOG_ENTRY_LENGTH;
 
@@ -115,7 +119,8 @@ const CACHE_INDEX_FILES_LIMIT_CAPACITY_LO = 50
 
 assert(CACHE_INDEX_FILES_LIMIT_CAPACITY_HI > CACHE_INDEX_FILES_LIMIT_CAPACITY_LO);
 
-const debug = require('debug')('zmq-raft:filelog');
+import debugFactory from 'debug';
+const debug = debugFactory('zmq-raft:filelog');
 
 const indexFileCache$   =    Symbol("indexFileCache")
     , indexFileNames$   =    Symbol("indexFileNames")
@@ -1139,7 +1144,7 @@ class FileLog extends ReadyEmitter {
 
 mixinReaders(FileLog.prototype);
 
-module.exports = exports = FileLog;
+export default exports = FileLog;
 
 /* find closest entry (but equal or smaller than searched) */
 function bSearch(entries, searched) {

@@ -3,7 +3,7 @@
  */
 "use strict";
 
-const FramesProtocol = require('../protocol/frames_protocol');
+import FramesProtocol from '../protocol/frames_protocol';
 
 exports.FramesProtocol = FramesProtocol;
 

@@ -4,7 +4,7 @@
 "use strict";
 
 const isArray = Array.isArray;
-const { mergeMaps, majorityOf, parsePeers } = require('../utils/helpers');
+import { mergeMaps, majorityOf, parsePeers } from '../utils/helpers';
 
 /**
  *  ClusterConfiguration is a class to control peer membership, transition of peer membership and voting.
@@ -321,4 +321,4 @@ class ClusterConfiguration {
 
 ClusterConfiguration.prototype.toJSON = ClusterConfiguration.prototype.serialize;
 
-exports = module.exports = ClusterConfiguration;
+export default ClusterConfiguration;

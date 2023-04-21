@@ -4,12 +4,12 @@
  */
 "use strict";
 
-const test = require('tap').test;
-const raft = require('../..');
+import { test } from 'tap';
+import raft from '../..';
 const FramesProtocol = raft.protocol.FramesProtocol;
 const { ZmqRpcSocket, RpcCancelError } = raft.server.ZmqRpcSocket;
 const { ZmqSocket } = raft.utils.zmqsocket;
-const { ZMQ_LINGER } = require('zeromq');
+import { ZMQ_LINGER } from 'zeromq';
 
 test('should be a function', t => {
   t.type(FramesProtocol, 'function');

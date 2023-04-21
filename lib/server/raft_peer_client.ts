@@ -3,24 +3,21 @@
  */
 "use strict";
 
-const debug = require('debug')('zmq-raft:peer-client');
-
-const { decode: decodeMsgPack } = require('msgpack-lite');
-
-const ZmqRaftClient = require('../client/zmq_raft_client');
-
-const { assertConstantsDefined } = require('../utils/helpers');
-
-const { lastConfigOffsetOf, readers: { readDataOf, readRequestIdOf } } = require('../common/log_entry');
+import debugFactory from 'debug';
+const debug = debugFactory('zmq-raft:peer-client');
+import { decode as decodeMsgPack } from 'msgpack-lite';
+import ZmqRaftClient from '../client/zmq_raft_client';
+import { assertConstantsDefined } from '../utils/helpers';
+import { lastConfigOffsetOf, readers } from '../common/log_entry';
 
 const getConfigEntryPeers = (entry) => (entry && decodeMsgPack(readDataOf(entry)));
 const getConfigEntryRequestKey = (entry) => (entry && readRequestIdOf(entry, 'base64'));
 
-const { FSM_CLIENT } = require('../common/constants');
+import { FSM_CLIENT } from '../common/constants';
 
 assertConstantsDefined({ FSM_CLIENT }, 'symbol');
 
-exports.synchronizeLogEntries = function() {
+export const synchronizeLogEntries = function() {
   const lastApplied = this.lastApplied
       , log = this._log;
 

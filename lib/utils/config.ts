@@ -1,14 +1,12 @@
 "use strict";
 
-const path = require('path');
+import path from 'path';
+import { readFile } from './fsutil';
+import { createOptions } from '../server/builder';
+import debugFactory from 'debug';
+const debug = debugFactory('config');
 
-const { readFile } = require('./fsutil');
-
-const { createOptions } = require('../server/builder');
-
-const debug = require('debug')('config');
-
-exports.readConfig = function readConfig(configFile, namespace) {
+export const readConfig = function readConfig(configFile, namespace) {
   return Promise.resolve(configFile ? loadConfig(configFile) : {raft: {}})
                 .then(config => createOptions(getDeepProperty(config, namespace)));
 };

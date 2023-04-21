@@ -6,26 +6,23 @@
 const min = Math.min
    ,  push = Array.prototype.push;
 
-const assert = require('assert');
+import assert from 'assert';
+import debugFactory from 'debug';
+const debug = debugFactory('zmq-raft:leader');
+import { encode as encodeMsgPack } from 'msgpack-lite';
+import { assertConstantsDefined } from '../utils/helpers';
+import { shared as lockShared } from '../utils/lock';
+import { generateRequestKey } from '../common/log_entry';
 
-const debug = require('debug')('zmq-raft:leader');
-
-const { encode: encodeMsgPack } = require('msgpack-lite');
-
-const { assertConstantsDefined } = require('../utils/helpers');
-const { shared: lockShared } = require('../utils/lock');
-
-const { generateRequestKey } = require('../common/log_entry');
-
-const { FSM_CLIENT
-      , FSM_FOLLOWER
-      , FSM_CANDIDATE
-      , FSM_LEADER
-
-      , APPEND_ENTRY
-      , REQUEST_VOTE
-      , INSTALL_SNAPSHOT
-      } = require('../common/constants');
+import {
+  FSM_CLIENT,
+  FSM_FOLLOWER,
+  FSM_CANDIDATE,
+  FSM_LEADER,
+  APPEND_ENTRY,
+  REQUEST_VOTE,
+  INSTALL_SNAPSHOT,
+} from '../common/constants';
 
 assertConstantsDefined({
   FSM_CLIENT
@@ -40,7 +37,7 @@ assertConstantsDefined({
 , INSTALL_SNAPSHOT
 }, 'string', true);
 
-const { createFramesProtocol } = require('../protocol');
+import { createFramesProtocol } from '../protocol';
 
 const {encodeRequest: encodeRequestVoteRequest}   = createFramesProtocol('RequestVote');
 const {encodeRequest: encodeAppendEntriesRequest} = createFramesProtocol('AppendEntries');

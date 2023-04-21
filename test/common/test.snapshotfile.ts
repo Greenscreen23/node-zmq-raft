@@ -4,14 +4,13 @@
  */
 "use strict";
 
-const fs = require('fs')
-    , path = require('path')
-    , crypto = require('crypto')
-    , { Readable } = require('stream')
-    , mp = require('msgpack-lite')
-const test = require('tap').test;
-
-const raft = require('../..');
+import fs from 'fs';
+import path from 'path';
+import crypto from 'crypto';
+import { Readable } from 'stream';
+import mp from 'msgpack-lite';
+import { test } from 'tap';
+import raft from '../..';
 const { SnapshotFile } = raft.common;
 const { tokenfile: { TokenFile } } = raft.utils;
 

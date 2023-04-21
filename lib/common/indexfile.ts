@@ -6,25 +6,42 @@
 const isArray = Array.isArray
     , isBuffer = Buffer.isBuffer;
 
-const assert = require('assert')
-    , os = require('os')
-    , fs = require('fs')
-    , { createWriteStream, createReadStream } = fs
-    , { Transform } = require('stream')
-    , path = require('path')
-    , EventEmitter = require('events')
-    , mp = require('msgpack-lite');
+import assert from 'assert';
+import os from 'os';
+import fs from 'fs';
+import { Transform } from 'stream';
+import path from 'path';
+import EventEmitter from 'events';
+import mp from 'msgpack-lite';
 
-const { open, openDir, close, closeDir, read, write, ftruncate, fdatasync,
-        fsyncDirFileCloseDir, mkdirp, unlink} = require('../utils/fsutil');
+const { createWriteStream, createReadStream } = fs;
 
-const { defineConst } = require('../utils/helpers');
-const { TOKEN_HEADER_SIZE
-      , TOKEN_HEADER_BYTE_SIZE
-      , BYTES_PER_ELEMENT
-      , tokenToUint32, findToken, createTokenFile } = require('../utils/tokenfile');
+import {
+  open,
+  openDir,
+  close,
+  closeDir,
+  read,
+  write,
+  ftruncate,
+  fdatasync,
+  fsyncDirFileCloseDir,
+  mkdirp,
+  unlink,
+} from '../utils/fsutil';
 
-const ReadyEmitter = require('../common/readyemitter');
+import { defineConst } from '../utils/helpers';
+
+import {
+  TOKEN_HEADER_SIZE,
+  TOKEN_HEADER_BYTE_SIZE,
+  BYTES_PER_ELEMENT,
+  tokenToUint32,
+  findToken,
+  createTokenFile,
+} from '../utils/tokenfile';
+
+import ReadyEmitter from '../common/readyemitter';
 
 const INDEX_FILE_EXT = '.rlog';
 
@@ -43,7 +60,8 @@ const VERSION = 1
     , ITMZ = tokenToUint32('ITMZ')
     , META = tokenToUint32('META')
 
-const debug = require('debug')('zmq-raft:indexfile');
+import debugFactory from 'debug';
+const debug = debugFactory('zmq-raft:indexfile');
 
 const fd$       = Symbol.for('fd')
     , nextAt$   = Symbol.for('nextAt')
@@ -678,7 +696,7 @@ defineConst(IndexFile, 'MAX_CAPACITY', MAX_CAPACITY);
 defineConst(IndexFile, 'MIN_CAPACITY', MIN_CAPACITY);
 defineConst(IndexFile, 'MAX_DATASIZE', MAX_DATASIZE);
 
-module.exports = IndexFile;
+export default IndexFile;
 
 /* utils */
 

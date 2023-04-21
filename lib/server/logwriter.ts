@@ -3,9 +3,8 @@
  */
 "use strict";
 
-const { Writable } = require('stream');
-
-const synchronize = require('../utils/synchronize');
+import { Writable } from 'stream';
+import synchronize from '../utils/synchronize';
 
 class LogWriter extends Writable {
   constructor(log) {
@@ -58,5 +57,5 @@ class LogWriter extends Writable {
   }
 }
 
-module.exports = LogWriter;
+export default LogWriter;
 

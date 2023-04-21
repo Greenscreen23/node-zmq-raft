@@ -4,9 +4,9 @@
  */
 "use strict";
 
-const test = require('tap').test;
-const crypto = require('crypto');
-const raft = require('../..');
+import { test } from 'tap';
+import crypto from 'crypto';
+import raft from '../..';
 const { helpers } = raft.utils;
 
 test('should have functions and properties', t => {

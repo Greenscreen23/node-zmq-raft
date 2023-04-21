@@ -42,19 +42,14 @@ Example:
 const isArray  = Array.isArray
     , isBuffer = Buffer.isBuffer
 
-const assert = require('assert');
-const { EventEmitter } = require('events');
-const { Readable } = require('stream');
-
-const { ZMQ_LINGER } = require('zeromq');
-const { ZmqSocket } = require('../utils/zmqsocket');
-
-const { assertConstantsDefined } = require('../utils/helpers');
-
-const { bufferToLogEntry } = require('../common/log_entry');
-
-const { BROADCAST_HEARTBEAT_INTERVAL
-      } = require('../common/constants');
+import assert from 'assert';
+import { EventEmitter } from 'events';
+import { Readable } from 'stream';
+import { ZMQ_LINGER } from 'zeromq';
+import { ZmqSocket } from '../utils/zmqsocket';
+import { assertConstantsDefined } from '../utils/helpers';
+import { bufferToLogEntry } from '../common/log_entry';
+import { BROADCAST_HEARTBEAT_INTERVAL } from '../common/constants';
 
 assertConstantsDefined({
   BROADCAST_HEARTBEAT_INTERVAL
@@ -67,15 +62,16 @@ const REQUEST_URL_MSG_TYPE = '*';
 
 const requestUrlTypeBuf  = Buffer.from(REQUEST_URL_MSG_TYPE);
 
-const ZmqRaftPeerClient = require('../client/zmq_raft_peer_client');
+import ZmqRaftPeerClient from '../client/zmq_raft_peer_client';
 
 const secretBuf$ = Symbol('secretBuf');
 
-const { createFramesProtocol } = require('../protocol');
+import { createFramesProtocol } from '../protocol';
 
 const stateBroadcastProtocol = createFramesProtocol('StateBroadcast');
 
-const debug = require('debug')('zmq-raft:peer-sub');
+import debugFactory from 'debug';
+const debug = debugFactory('zmq-raft:peer-sub');
 
 /**
  * ZmqRaftPeerSub extends the single peer 0MQ Raft RPC protocol, providing a subscriber socket
@@ -539,4 +535,4 @@ class ForeverEntriesStream extends Readable {
 
 ZmqRaftPeerSub.ZmqRaftPeerSub = ZmqRaftPeerSub;
 ZmqRaftPeerSub.ForeverEntriesStream = ForeverEntriesStream;
-module.exports = exports = ZmqRaftPeerSub;
+export default exports = ZmqRaftPeerSub;

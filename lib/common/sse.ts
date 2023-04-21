@@ -3,11 +3,10 @@
  */
 "use strict";
 
-const EventEmitter = require('events');
-
-const PassThrough = require('stream').PassThrough;
-
-const debug = require('debug')('lib:sse');
+import EventEmitter from 'events';
+import { PassThrough } from 'stream';
+import debugFactory from 'debug';
+const debug = debugFactory('lib:sse');
 
 const stringify = JSON.stringify;
 
@@ -100,4 +99,4 @@ ServerSideEvents.prototype.sse = sse;
 ServerSideEvents.sse = sse;
 ServerSideEvents.create = (req, res, options) => new ServerSideEvents(req, res, options);
 
-module.exports = exports = ServerSideEvents;
+export default exports = ServerSideEvents;

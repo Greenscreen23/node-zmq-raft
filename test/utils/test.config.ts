@@ -4,10 +4,10 @@
  */
 "use strict";
 
-const test = require('tap').test;
-const path = require('path');
-const { readConfig } = require('../../lib/utils/config');
-const { createOptions } = require('../../lib/server/builder');
+import { test } from 'tap';
+import path from 'path';
+import { readConfig } from '../../lib/utils/config';
+import { createOptions } from '../../lib/server/builder';
 
 const configBase = path.join(__dirname, 'configs', 'example');
 

@@ -4,13 +4,12 @@
  */
 "use strict";
 
-const fs = require('fs')
-    , path = require('path')
-    , { Readable } = require('stream')
-    , crypto = require('crypto')
-const test = require('tap').test;
-
-const raft = require('../..');
+import fs from 'fs';
+import path from 'path';
+import { Readable } from 'stream';
+import crypto from 'crypto';
+import { test } from 'tap';
+import raft from '../..';
 const { LogEntry, SnapshotChunk, IndexFile } = raft.common;
 const { DEFAULT_CAPACITY } = IndexFile;
 const { FileLog } = raft.server;

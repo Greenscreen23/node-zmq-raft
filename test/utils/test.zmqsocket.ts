@@ -4,13 +4,13 @@
  */
 "use strict";
 
-const crypto = require('crypto');
-const test = require('tap').test;
-const raft = require('../..');
+import crypto from 'crypto';
+import { test } from 'tap';
+import raft from '../..';
 const delay = raft.utils.helpers.delay;
 const { allocBufUIntLE, readBufUIntLE } = raft.utils.bufconv;
 const { ZmqSocket, ZmqDealerSocket } = raft.utils.zmqsocket;
-const zmq = require('zeromq');
+import zmq from 'zeromq';
 
 test('should be a function', t => {
   t.type(ZmqSocket, 'function');

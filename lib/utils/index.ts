@@ -3,15 +3,15 @@
  */
 "use strict";
 
-exports.bufconv     = require('./bufconv');
-exports.filerotate  = require('./filerotate');
-exports.fsutil      = require('./fsutil');
-exports.helpers     = require('./helpers');
-exports.id          = require('./id');
-exports.lock        = require('./lock');
-exports.monitor     = require('./monitor');
-exports.parallel    = require('./parallel');
-exports.synchronize = require('./synchronize');
-exports.tempfiles   = require('./tempfiles');
-exports.tokenfile   = require('./tokenfile');
-exports.zmqsocket   = require('./zmqsocket');
+export const bufconv = require('./bufconv');
+export const filerotate = require('./filerotate');
+export const fsutil = require('./fsutil');
+export const helpers = require('./helpers');
+export const id = require('./id');
+export const lock = require('./lock');
+export const monitor = require('./monitor');
+export const parallel = require('./parallel');
+export const synchronize = require('./synchronize');
+export const tempfiles = require('./tempfiles');
+export const tokenfile = require('./tokenfile');
+export const zmqsocket = require('./zmqsocket');

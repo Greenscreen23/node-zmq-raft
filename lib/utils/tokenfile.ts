@@ -3,9 +3,9 @@
  */
 "use strict";
 
-const assert = require('assert');
-const { read: readCb } = require('fs');
-const { open, write, ftruncate, close, read } = require('../utils/fsutil');
+import assert from 'assert';
+import { read as readCb } from 'fs';
+import { open, write, ftruncate, close, read } from '../utils/fsutil';
 
 const BYTES_PER_ELEMENT = Uint32Array.BYTES_PER_ELEMENT;
 

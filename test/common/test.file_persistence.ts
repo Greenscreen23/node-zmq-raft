@@ -4,10 +4,10 @@
  */
 "use strict";
 
-const test = require('tap').test;
-const path = require('path');
-const fs = require('fs');
-const raft = require('../..');
+import { test } from 'tap';
+import path from 'path';
+import fs from 'fs';
+import raft from '../..';
 const { FilePersistence } = raft.common;
 
 var workdir = fs.mkdtempSync(path.resolve(__dirname, '..', '..', 'tmp') + path.sep);

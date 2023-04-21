@@ -6,21 +6,14 @@
 const isBuffer = Buffer.isBuffer
     , isArray  = Array.isArray;
 
-const msgpack = require('msgpack-lite');
+import msgpack from 'msgpack-lite';
+import bufconv from '../utils/bufconv';
 
-const bufconv      = require('../utils/bufconv')
-    , intEncode    = bufconv.allocBufIntLE
-    , uintEncode   = bufconv.allocBufUIntLE
-    , numberEncode = bufconv.allocBufNumberLE
-    , boolEncode   = bufconv.boolToBuffer
-    , readBool     = bufconv.bufferToBool
-    , readUInt     = bufconv.readBufUIntLE
-    , readInt      = bufconv.readBufIntLE
-    , readNumber   = bufconv.readBufNumberLE
+const intEncode    = bufconv.allocBufIntLE, uintEncode   = bufconv.allocBufUIntLE, numberEncode = bufconv.allocBufNumberLE, boolEncode   = bufconv.boolToBuffer, readBool     = bufconv.bufferToBool, readUInt     = bufconv.readBufUIntLE, readInt      = bufconv.readBufIntLE, readNumber   = bufconv.readBufNumberLE;
 
-const { ZmqSocket } = require('../utils/zmqsocket');
-
-const debug = require('debug')('zmq-raft:frames-protocol');
+import { ZmqSocket } from '../utils/zmqsocket';
+import debugFactory from 'debug';
+const debug = debugFactory('zmq-raft:frames-protocol');
 
 class FramesProtocol {
   /**
@@ -163,7 +156,7 @@ class FramesProtocol {
 
 }
 
-module.exports = exports = FramesProtocol;
+export default exports = FramesProtocol;
 
 const emptyFrameCoder = () => [];
 const emptyFrameEncoderArgs = (args) => isArray(args) ? args : args === undefined ? [] : [args];

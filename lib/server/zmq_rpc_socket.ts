@@ -6,14 +6,14 @@ const isArray = Array.isArray
     , isBuffer = Buffer.isBuffer
     , identity = (a) => a;
 
-const assert = require('assert');
-const zmq = require('zeromq');
+import assert from 'assert';
+import zmq from 'zeromq';
 const { ZMQ_LINGER, ZMQ_SNDHWM } = zmq;
-const { ZmqDealerSocket } = require('../utils/zmqsocket');
+import { ZmqDealerSocket } from '../utils/zmqsocket';
 
 const DEFAULT_RPC_TIMEOUT = 50;
 
-const { allocBufUIntLE: encodeRequestId, readBufUIntLE: decodeRequestId }  = require('../utils/bufconv');
+import { allocBufUIntLE as encodeRequestId, readBufUIntLE as decodeRequestId } from '../utils/bufconv';
 
 const REQUEST_ID_BYTES = 3;
 const REQUEST_ID_MASK = (1 << (REQUEST_ID_BYTES*8)) - 1;
@@ -30,7 +30,8 @@ const lastReqId$     = Symbol.for('lastReqId');
 const nextRequestId$ = Symbol.for('nextRequestId');
 const disconnect$    = Symbol.for('disconnect');
 
-const debug = require('debug')('zmq-raft:rpc-socket');
+import debugFactory from 'debug';
+const debug = debugFactory('zmq-raft:rpc-socket');
 
 function RpcCancelError(message) {
   Error.captureStackTrace(this, RpcCancelError);
@@ -357,4 +358,4 @@ ZmqRpcSocket.prototype.decodeRequestId = decodeRequestId;
 ZmqRpcSocket.prototype.requestIdIsValid = requestIdIsValid;
 ZmqRpcSocket.ZmqRpcSocket = ZmqRpcSocket;
 ZmqRpcSocket.RpcCancelError = RpcCancelError;
-module.exports = exports = ZmqRpcSocket;
+export default exports = ZmqRpcSocket;

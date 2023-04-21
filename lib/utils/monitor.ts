@@ -1,10 +1,11 @@
-const EventEmitter = require('events');
-const debug = require('debug')('zmq-raft-monitor');
-const { createRangeRandomizer } = require('./helpers');
-const ZmqRaftClient = require('../client/zmq_raft_client');
-const ZmqRaftPeerClient = require('../client/zmq_raft_peer_client');
+import EventEmitter from 'events';
+import debugFactory from 'debug';
+const debug = debugFactory('zmq-raft-monitor');
+import { createRangeRandomizer } from './helpers';
+import ZmqRaftClient from '../client/zmq_raft_client';
+import ZmqRaftPeerClient from '../client/zmq_raft_peer_client';
 const TimeoutError = ZmqRaftClient.TimeoutError;
-const { parsePeers } = require('../utils/helpers');
+import { parsePeers } from '../utils/helpers';
 
 const REQUEST_CONFIG_TIMEOUT = 10000; // 10 seconds
 const REQUEST_INFO_TIMEOUT = 4000; // 4 seconds

@@ -6,18 +6,13 @@
 
 if (require.main !== module) throw new Error("zr-config.js must be run directly from node");
 
-const url = require('url')
-    , assert = require('assert');
-
-const program = require('commander');
-
-const { decode: decodeMsgPack } = require('msgpack-lite');
-
-const pkg = require('../package.json');
-
-const raft = require('..');
-
-const { readConfig } = require('../lib/utils/config');
+import url from 'url';
+import assert from 'assert';
+import program from 'commander';
+import { decode as decodeMsgPack } from 'msgpack-lite';
+import pkg from '../package.json';
+import raft from '..';
+import { readConfig } from '../lib/utils/config';
 
 const { client: { ZmqRaftClient }
       , common: { constants: { RE_STATUS_SNAPSHOT
@@ -29,7 +24,7 @@ const { client: { ZmqRaftClient }
                , helpers: { parsePeers } }
       } = raft;
 
-const lookup = require('../lib/utils/dns_lookup').hostsToZmqUrls;
+import { hostsToZmqUrls as lookup } from '../lib/utils/dns_lookup';
 
 program
   .version(pkg.version)

@@ -3,12 +3,12 @@
  */
 "use strict";
 
-exports.constants = require('./constants');
-exports.FilePersistence = require('./file_persistence');
-exports.IndexFile = require('./indexfile');
-exports.LogEntry = require('./log_entry');
-exports.SnapshotChunk = require('./snapshot_chunk');
-exports.ReadyEmitter = require('./readyemitter');
-exports.SnapshotFile = require('./snapshotfile');
-exports.StateMachineWriter = require('./state_machine_writer');
-exports.ClusterConfiguration = require('./cluster_configuration');
+export const constants = require('./constants');
+export const FilePersistence = require('./file_persistence');
+export const IndexFile = require('./indexfile');
+export const LogEntry = require('./log_entry');
+export const SnapshotChunk = require('./snapshot_chunk');
+export const ReadyEmitter = require('./readyemitter');
+export const SnapshotFile = require('./snapshotfile');
+export const StateMachineWriter = require('./state_machine_writer');
+export const ClusterConfiguration = require('./cluster_configuration');

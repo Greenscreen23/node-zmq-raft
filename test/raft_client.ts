@@ -1,30 +1,26 @@
 "use strict";
 
-const assert = require('assert');
-const os = require('os');
-const fs = require('fs');
-const path = require('path');
-const dns = require('dns');
-
-const zmq = require('zeromq');
-const colors = require('colors/safe');
-
-const raft = require('..');
+import assert from 'assert';
+import os from 'os';
+import fs from 'fs';
+import path from 'path';
+import dns from 'dns';
+import zmq from 'zeromq';
+import colors from 'colors/safe';
+import raft from '..';
 const { SnapshotChunk } = raft.common;
 
-const { createRepl } = require('../repl');
-
-const { LogEntry, UpdateRequest } = require('../lib/common/log_entry');
-const SnapshotFile = require('../lib/common/snapshotfile');
-const ZmqRaftClient = require('../lib/client/zmq_raft_client');
-const ZmqRaftSubscriber = require('../lib/client/zmq_raft_subscriber');
-const FileLog = require('../lib/server/filelog');
-const BroadcastStateMachine = require('../lib/server/broadcast_state_machine');
-const RaftPersistence = require('../lib/server/raft_persistence');
-
-const { lpad } = require('../lib/utils/helpers');
-const { genIdent, isIdent } = require('../lib/utils/id');
-const msgpack = require('msgpack-lite');
+import { createRepl } from '../repl';
+import { LogEntry, UpdateRequest } from '../lib/common/log_entry';
+import SnapshotFile from '../lib/common/snapshotfile';
+import ZmqRaftClient from '../lib/client/zmq_raft_client';
+import ZmqRaftSubscriber from '../lib/client/zmq_raft_subscriber';
+import FileLog from '../lib/server/filelog';
+import BroadcastStateMachine from '../lib/server/broadcast_state_machine';
+import RaftPersistence from '../lib/server/raft_persistence';
+import { lpad } from '../lib/utils/helpers';
+import { genIdent, isIdent } from '../lib/utils/id';
+import msgpack from 'msgpack-lite';
 
 var client;
 var subs;

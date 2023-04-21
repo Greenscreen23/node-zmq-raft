@@ -6,19 +6,15 @@
 
 if (require.main !== module) throw new Error("zr-log-compact.js must be run directly from node");
 
-const path = require('path')
-    , assert = require('assert');
-
-const { Z_NO_COMPRESSION, Z_BEST_COMPRESSION } = require('zlib');
-
-const program = require('commander')
-    , debug = require('debug')('zmq-raft:log-compact');
-
-const pkg = require('../package.json');
-
-const raft = require('..');
-
-const { readConfig } = require('../lib/utils/config');
+import path from 'path';
+import assert from 'assert';
+import { Z_NO_COMPRESSION, Z_BEST_COMPRESSION } from 'zlib';
+import program from 'commander';
+import debugFactory from 'debug';
+const debug = debugFactory('zmq-raft:log-compact');
+import pkg from '../package.json';
+import raft from '..';
+import { readConfig } from '../lib/utils/config';
 
 const { server: { FileLog }
       , common: { SnapshotFile }

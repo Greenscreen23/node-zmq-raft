@@ -4,8 +4,8 @@
  */
 "use strict";
 
-const test = require('tap').test;
-const raft = require('../..');
+import { test } from 'tap';
+import raft from '../..';
 const { LogEntry
       , UpdateRequest
       , makeHasRequestExpired

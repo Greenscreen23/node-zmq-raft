@@ -1,14 +1,11 @@
-const assert = require('assert');
-const fs = require('fs');
-
-const { PassThrough } = require('stream');
-const { createGzip, createUnzip, Z_NO_COMPRESSION, Z_BEST_COMPRESSION } = require('zlib');
-
-const { StateMachineBase } = require('../lib/api');
-const { LOG_ENTRY_TYPE_STATE
-      , readers: { readTypeOf, readDataOf } } = require('../lib/common/log_entry');
-
-const debug = require('debug')('zmq-raft:passthrough-state');
+import assert from 'assert';
+import fs from 'fs';
+import { PassThrough } from 'stream';
+import { createGzip, createUnzip, Z_NO_COMPRESSION, Z_BEST_COMPRESSION } from 'zlib';
+import { StateMachineBase } from '../lib/api';
+import { LOG_ENTRY_TYPE_STATE, readers } from '../lib/common/log_entry';
+import debugFactory from 'debug';
+const debug = debugFactory('zmq-raft:passthrough-state');
 
 class PassThroughState extends StateMachineBase {
 
@@ -93,4 +90,4 @@ class PassThroughState extends StateMachineBase {
 
 }
 
-module.exports = PassThroughState;
+export default PassThroughState;

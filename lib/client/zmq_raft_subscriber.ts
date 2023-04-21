@@ -20,20 +20,13 @@ const isArray  = Array.isArray
     , isBuffer = Buffer.isBuffer
     , now      = Date.now;
 
-const assert = require('assert');
-
-const { Duplex } = require('stream');
-
-const { ZMQ_LINGER } = require('zeromq');
-const { ZmqSocket } = require('../utils/zmqsocket');
-
-const { assertConstantsDefined, delay, parsePeers } = require('../utils/helpers');
-
-const { bufferToLogEntry, UpdateRequest: { isUpdateRequest } } = require('../common/log_entry');
-
-const { BROADCAST_HEARTBEAT_INTERVAL
-      , RE_STATUS_SNAPSHOT
-      } = require('../common/constants');
+import assert from 'assert';
+import { Duplex } from 'stream';
+import { ZMQ_LINGER } from 'zeromq';
+import { ZmqSocket } from '../utils/zmqsocket';
+import { assertConstantsDefined, delay, parsePeers } from '../utils/helpers';
+import { bufferToLogEntry, UpdateRequest } from '../common/log_entry';
+import { BROADCAST_HEARTBEAT_INTERVAL, RE_STATUS_SNAPSHOT } from '../common/constants';
 
 assertConstantsDefined({
   BROADCAST_HEARTBEAT_INTERVAL
@@ -47,17 +40,18 @@ const REQUEST_URL_MSG_TYPE = '*';
 
 const requestUrlTypeBuf  = Buffer.from(REQUEST_URL_MSG_TYPE);
 
-const ZmqRaftClient = require('../client/zmq_raft_client');
+import ZmqRaftClient from '../client/zmq_raft_client';
 
 const TimeoutError = ZmqRaftClient.TimeoutError;
 
 const secretBuf$ = Symbol('secretBuf');
 
-const { createFramesProtocol } = require('../protocol');
+import { createFramesProtocol } from '../protocol';
 
 const stateBroadcastProtocol = createFramesProtocol('StateBroadcast');
 
-const debug = require('debug')('zmq-raft:subscriber');
+import debugFactory from 'debug';
+const debug = debugFactory('zmq-raft:subscriber');
 
 function MissingEntriesError(message) {
   Error.captureStackTrace(this, TimeoutError);
@@ -477,4 +471,4 @@ class ZmqRaftSubscriber extends Duplex {
 }
 
 ZmqRaftSubscriber.ZmqRaftSubscriber = ZmqRaftSubscriber;
-module.exports = exports = ZmqRaftSubscriber;
+export default exports = ZmqRaftSubscriber;

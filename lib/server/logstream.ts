@@ -6,13 +6,13 @@
 const min = Math.min
     , max = Math.max;
 
-const { Readable } = require('stream');
+import { Readable } from 'stream';
 
 const INDEX_FILE_STREAM_HWMARK_MIN = 8*1024
     , DEFAULT_MAX_CHUNK_ENTRIES = 4096
     , DEFAULT_MAX_CHUNK_SIZE = 64*1024
 
-const { defineConst } = require('../utils/helpers');
+import { defineConst } from '../utils/helpers';
 
 class LogStream extends Readable {
   constructor(fileLog, firstIndex, lastIndex, options) {
@@ -135,4 +135,4 @@ class LogStream extends Readable {
   }
 }
 
-module.exports = exports = LogStream;
+export default exports = LogStream;

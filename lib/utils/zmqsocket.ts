@@ -2,6 +2,7 @@
  *  Copyright (c) 2016-2017 Rafał Michalski <royal@yeondir.com>
  */
 "use strict";
+
 /*
 
 This module contains modified zmq.Sockets.
@@ -21,12 +22,12 @@ The other one is unnecessary argument spreading in 'message' event from zmq.Sock
 Also fixes a bug with pause.
 
 */
-const assert = require('assert');
+import assert from 'assert';
 
 const isArray = Array.isArray
     , isBuffer = Buffer.isBuffer;
 
-const { Socket, ZMQ_SNDMORE } = require('zeromq');
+import { Socket, ZMQ_SNDMORE } from 'zeromq';
 
 const toBuffer = (buf) => (isBuffer(buf) ? buf
                                          : Buffer.from('string' === typeof buf ? buf : String(buf)));

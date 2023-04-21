@@ -3,9 +3,8 @@
  */
 "use strict";
 
-const assert = require('assert');
-
-const ReadyEmitter = require('../common/readyemitter');
+import assert from 'assert';
+import ReadyEmitter from '../common/readyemitter';
 
 /*
 
@@ -104,4 +103,4 @@ class StateMachineBase extends ReadyEmitter {
 
 }
 
-module.exports = exports = StateMachineBase;
+export default exports = StateMachineBase;

@@ -44,15 +44,12 @@
 const isArray = Array.isArray;
 const isBuffer = Buffer.isBuffer;
 
-const assert = require('assert');
-
-const { ZMQ_LINGER, ZMQ_SNDHWM } = require('zeromq');
-
-const { ZmqDealerSocket } = require('../utils/zmqsocket');
-
-const debug = require('debug')('zmq-raft:socket');
-
-const { allocBufUIntLE: encodeRequestId, readBufUIntLE }  = require('../utils/bufconv');
+import assert from 'assert';
+import { ZMQ_LINGER, ZMQ_SNDHWM } from 'zeromq';
+import { ZmqDealerSocket } from '../utils/zmqsocket';
+import debugFactory from 'debug';
+const debug = debugFactory('zmq-raft:socket');
+import { allocBufUIntLE as encodeRequestId, readBufUIntLE } from '../utils/bufconv';
 
 const decodeRequestId = (id) => {
   if (id === undefined) return;
@@ -83,7 +80,7 @@ TimeoutError.prototype = Object.create(Error.prototype);
 TimeoutError.prototype.constructor = TimeoutError;
 TimeoutError.prototype.isTimeout = true;
 
-const ZmqBaseSocket = require('../client/zmq_base_socket');
+import ZmqBaseSocket from '../client/zmq_base_socket';
 
 class ZmqProtocolSocket extends ZmqBaseSocket {
 
@@ -460,4 +457,4 @@ class ZmqProtocolSocket extends ZmqBaseSocket {
 
 ZmqProtocolSocket.ZmqProtocolSocket = ZmqProtocolSocket;
 ZmqProtocolSocket.TimeoutError = TimeoutError;
-module.exports = exports = ZmqProtocolSocket;
+export default exports = ZmqProtocolSocket;
