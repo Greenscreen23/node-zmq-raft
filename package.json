@@ -42,8 +42,10 @@
     "zeromq": "~5.2.8"
   },
   "devDependencies": {
+    "@types/node": "^18.15.13",
     "ben": "0.0.0",
     "colors": "^1.4.0",
-    "tap": "^16.3.4"
+    "tap": "^16.3.4",
+    "typescript": "^5.0.4"
   }
 }

@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (c) 2016 Rafał Michalski <royal@yeondir.com>
  */
 "use strict";
