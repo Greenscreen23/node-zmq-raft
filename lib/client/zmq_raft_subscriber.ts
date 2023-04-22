@@ -80,6 +80,23 @@ MissingEntriesError.prototype.isMissingEntries = true;
  * The Writable part of the stream accepts instances of common.LogEntry.UpdateRequest.
 **/
 class ZmqRaftSubscriber extends Duplex {
+	public entriesStreamOptions: any;
+	public broadcastTimeoutMs: any;
+	public _subscriberTimeout: any;
+	public emit: any;
+	public client: any;
+	public url: any;
+	public sub: any;
+	public _listener: any;
+	public lastLogIndex: any;
+	public ahead: any;
+	public isFresh: any;
+	public _pendingMissing: any;
+	public _pendingRpcStream: any;
+	public _pendingRequestPubUrl: any;
+	public push: any;
+	public entries: any;
+
   /**
    * Create ZmqRaftSubscriber
    *

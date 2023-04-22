@@ -15,6 +15,17 @@ const INDEX_FILE_STREAM_HWMARK_MIN = 8*1024
 const { defineConst } = require('../utils/helpers');
 
 class LogStream extends Readable {
+	public maxChunkEntries: any;
+	public maxChunkSize: any;
+	public _index: any;
+	public _logStream: any;
+	public once: any;
+	public pause: any;
+	public emit: any;
+	public fileLog: any;
+	public lastIndex: any;
+	public push: any;
+
   constructor(fileLog, firstIndex, lastIndex, options) {
     options = Object.assign({}, options);
     options.objectMode = true;

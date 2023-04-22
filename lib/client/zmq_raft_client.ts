@@ -50,6 +50,15 @@ const debug = require('debug')('zmq-raft:client');
  * pending request.
 **/
 class ZmqRaftClient extends ZmqRaftPeerClient {
+	public peers: any;
+	public leaderId: any;
+	public serverElectionGraceDelay: any;
+	public heartbeatMs: any;
+	public heartbeat: any;
+	public timeoutMs: any;
+	public setUrls: any;
+	public delay: any;
+
   /**
    * Create an instance of ZmqRaftClient.
    * 
@@ -83,7 +92,7 @@ class ZmqRaftClient extends ZmqRaftPeerClient {
    * @param {Object} [options]
    * @return {ZmqRaftClient}
   **/
-  constructor(urls, options) {
+  constructor(urls, options?) {
     if (urls && !isArray(urls) && 'object' === typeof urls) {
       options = urls, urls = undefined;
     }
@@ -157,7 +166,7 @@ class ZmqRaftClient extends ZmqRaftPeerClient {
    *                                   has changed or not.
    * @return {this}
   **/
-  setLeader(leaderId, forceSetUrls) {
+  setLeader(leaderId, forceSetUrls?) {
     const peers = this.peers;
     var url;
     if (forceSetUrls || this.leaderId !== leaderId) {
@@ -224,7 +233,7 @@ class ZmqRaftClient extends ZmqRaftPeerClient {
    * @param {int32} [rpctimeout] - the time, in milliseconds, until the request expires.
    * @return {Promise}
   **/
-  requestConfig(rpctimeout) {
+  requestConfig(rpctimeout?) {
     var expire;
     rpctimeout |= 0;
     if (rpctimeout !== 0) expire = now() + rpctimeout;
@@ -301,7 +310,7 @@ class ZmqRaftClient extends ZmqRaftPeerClient {
    * @param {int32} [rpctimeout] - the time, in milliseconds, until the request expires.
    * @return {Promise}
   **/
-  requestLogInfo(anyPeer, rpctimeout) {
+  requestLogInfo(anyPeer?, rpctimeout?) {
     if (this.peers.size === 0) {
       return this.requestConfig(rpctimeout).then(() => this.requestLogInfo(anyPeer, rpctimeout));
     }
@@ -365,7 +374,7 @@ class ZmqRaftClient extends ZmqRaftPeerClient {
    * @param {int32} [rpctimeout] - the time, in milliseconds, until the request expires.
    * @return {Promise}
   **/
-  configUpdate(id, peers, rpctimeout) {
+  configUpdate(id, peers, rpctimeout?) {
     if (this.peers.size === 0) {
       return this.requestConfig(rpctimeout).then(() => this.configUpdate(id, peers, rpctimeout));
     }
@@ -428,7 +437,7 @@ class ZmqRaftClient extends ZmqRaftPeerClient {
    * @param {int32} [rpctimeout] - the time, in milliseconds, until the request expires.
    * @return {Promise}
   **/
-  requestUpdate(id, data, rpctimeout) {
+  requestUpdate(id, data, rpctimeout?) {
     if (this.peers.size === 0) {
       return this.requestConfig(rpctimeout).then(() => this.requestUpdate(id, data, rpctimeout));
     }
@@ -503,7 +512,7 @@ class ZmqRaftClient extends ZmqRaftPeerClient {
    *        starting from this byte offset, providing the `lastIndex` precedes the actual snapshot index.
    * @return {Promise}
   **/
-  requestEntries(lastIndex, count, receiver, rpctimeout, snapshotOffset) {
+  requestEntries(lastIndex, count, receiver, rpctimeout, snapshotOffset?) {
     if (this.peers.size === 0) {
       return this.requestConfig(rpctimeout)
                  .then(() => this.requestEntries(lastIndex, count, receiver, rpctimeout));
@@ -582,7 +591,7 @@ class ZmqRaftClient extends ZmqRaftPeerClient {
    * @param {Object|number} [options|count]
    * @return {RequestEntriesStream}
   **/
-  requestEntriesStream(lastIndex, options) {
+  requestEntriesStream(lastIndex, options?) {
     if ('number' !== typeof options) {
       options = Object.assign({}, options);
       if (options.rpctimeout !== undefined) {

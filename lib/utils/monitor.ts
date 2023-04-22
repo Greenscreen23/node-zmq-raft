@@ -13,6 +13,10 @@ const QUERY_DELAY_FIRST = 100;
 const QUERY_DELAY_STEP = 300;
 
 class ZmqRaftMonitor extends EventEmitter {
+	public clients: any;
+	public bootstrapClient: any;
+	public emit: any;
+
   /**
    * Create ZmqRaftMonitor
    *

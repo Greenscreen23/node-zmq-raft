@@ -122,7 +122,7 @@ function allocBufNumberLE(value, typecheck) {
  * @param {number} [stop] offset to stop writing before or to extend the written bytes to
  * @return {number}
 **/
-function writeBufUIntLE(value, buffer, offset, stop) {
+function writeBufUIntLE(value, buffer, offset?, stop?) {
   value = +value;
   offset = offset >>> 0;
   if (value > MAX_ALLOWED_INTEGER) throw new Error("value is above maximum allowed integer");
@@ -164,7 +164,7 @@ function writeBufUIntLE(value, buffer, offset, stop) {
  * @param {number} [stop] offset to stop writing before or to extend the written bytes to
  * @return {number}
 **/
-function writeBufIntLE(value, buffer, offset, stop) {
+function writeBufIntLE(value, buffer, offset?, stop?) {
   value = +value;
   offset = offset >>> 0;
   if (value > MAX_ALLOWED_INTEGER) throw new Error("value is above maximum allowed integer");
@@ -225,7 +225,7 @@ function writeBufIntLE(value, buffer, offset, stop) {
  * @param {number} [offset] at which to begin writing
  * @return {number}
 **/
-function writeBufNumberLE(value, buffer, offset) {
+function writeBufNumberLE(value, buffer, offset?) {
   value = +value;
   if (value % 1 === 0 && value <= MAX_ALLOWED_INTEGER && value >= MIN_ALLOWED_INTEGER) {
     return writeBufIntLE(value, buffer, offset);

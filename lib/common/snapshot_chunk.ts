@@ -9,6 +9,9 @@ const { defineConst } = require('../utils/helpers');
 
 /* in node 4 and later Buffer hackishly descends from Uint8Array */
 class SnapshotChunk extends Buffer {
+	public snapshotByteOffset: any;
+	public length: any;
+	public snapshotTotalLength: any;
   /* Creates a new SnapshotChunk instance from a buffer without copying its bytes */
   constructor(buffer, logIndex, snapshotByteOffset, snapshotTotalLength, logTerm) {
     if (!isBuffer(buffer)) {

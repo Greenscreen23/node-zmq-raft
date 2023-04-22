@@ -18,6 +18,12 @@ const { Writable } = require('stream');
  * @return {Promise}
 **/
 class StateMachineWriter extends Writable {
+	public stateMachine: any;
+	public currentTerm: any;
+	public index: any;
+	public _applying: any;
+	public emit: any;
+
   constructor(stateMachine, firstIndex, currentTerm, snapshot) {
     super({objectMode: true, highWaterMark: 2});
 

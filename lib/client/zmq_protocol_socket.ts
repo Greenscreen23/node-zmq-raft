@@ -86,6 +86,13 @@ TimeoutError.prototype.isTimeout = true;
 const ZmqBaseSocket = require('../client/zmq_base_socket');
 
 class ZmqProtocolSocket extends ZmqBaseSocket {
+	public options: any;
+	public protocol: any;
+	public timeoutMs: any;
+	public socket: any;
+	public urls: any;
+	public requestKey: any;
+	public requestBuf: any;
 
   /**
    * Create ZmqProtocolSocket
@@ -158,7 +165,7 @@ class ZmqProtocolSocket extends ZmqBaseSocket {
    * @param {Object} [options]
    * @return {Promise} resolves to the RPC result.
   **/
-  request(msg, options) {
+  request(msg, options?) {
     options || (options = {});
 
     return new Promise((resolve, reject) => {

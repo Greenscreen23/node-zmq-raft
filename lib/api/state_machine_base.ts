@@ -41,6 +41,7 @@ They allow to detect and bounce message duplicates.
 */
 
 class StateMachineBase extends ReadyEmitter {
+	public lastApplied: any;
 
   /**
    * Creates new instance

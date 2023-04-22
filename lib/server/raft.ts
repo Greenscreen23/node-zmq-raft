@@ -126,6 +126,47 @@ const createRaftOptions = createOptionsFactory({
 
 */
 class ZmqRaft extends ReadyEmitter {
+	public _persistence: any;
+	public _log: any;
+	public _stateMachine: any;
+	public on: any;
+	public followLeaderId: any;
+	public _electionTimeout: any;
+	public _entryRequestCleaner: any;
+	public _rndElectionTimeout: any;
+	public maxLogEntryDataSize: any;
+	public peerMsgDataSize: any;
+	public rpcTimeout: any;
+	public appendEntriesRpcTimeoutMin: any;
+	public cluster: any;
+	public peers: any;
+	public peersUpdateRequest: any;
+	public peersIndex: any;
+	public blacklistedPeers: any;
+	public state: any;
+	public currentTerm: any;
+	public votedFor: any;
+	public lastApplied: any;
+	public commitIndex: any;
+	public nextIndex: any;
+	public matchIndex: any;
+	public matchTerm: any;
+	public _heartbeats: any;
+	public _followerBuffers: any;
+	public _rpcLastRequestIds: any;
+	public _tmpSnapshot: any;
+	public _tmpSnapshotBytesWritten: any;
+	public configUpdateReply: any;
+	public updateRequests: any;
+	public entriesRequests: any;
+	public _rpcs: any;
+	public _router: any;
+	public error: any;
+	public routerBindUrl: any;
+	public _routerListener: any;
+	public emit: any;
+	public peerId: any;
+
   /**
    * Creates a new ZmqRaft peer instance.
    *

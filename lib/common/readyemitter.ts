@@ -24,6 +24,10 @@ const ready$        = Symbol('ready')
     , setReady$     = Symbol.for('setReady')
 
 class ReadyEmitter extends EventEmitter {
+	public emit: any;
+	public removeListener: any;
+	public once: any;
+
   constructor() {
     super();
     this[ready$] = false;

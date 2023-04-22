@@ -196,7 +196,7 @@ function becomeLeader() {
 
 function onAppendEntriesResponse(currentTerm, followerId, sentPrevIndex
                                                         , sentLastIndex, sentLastTerm
-                                                        , term, success, conflictTermIndex, conflictTerm) {
+                                                        , term, success, conflictTermIndex?, conflictTerm?) {
   var followerNextIndex;
 
   // debug('append entries response: %s sentPrevIndex: %s sentPrevTerm: %s term: %s success: %s', followerId, sentPrevIndex, sentPrevTerm, term, success);

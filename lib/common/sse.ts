@@ -16,6 +16,15 @@ var counter = 0, globalId = 0;
 const nextId = () => (globalId = (globalId + 1) >>> 0).toString(16);
 
 class ServerSideEvents extends EventEmitter {
+	public id: any;
+	public req: any;
+	public res: any;
+	public _endproxy: any;
+	public stream: any;
+	public emit: any;
+	public remoteAddress: any;
+	public remotePort: any;
+
   constructor(req, res, options) {
     super();
 

@@ -32,6 +32,18 @@ const { mergeMaps, majorityOf, parsePeers } = require('../utils/helpers');
  *  @property {Array} configAry -> (a single/joint config peers array)
 **/
 class ClusterConfiguration {
+	public peerId: any;
+	public peers: any;
+	public voted: any;
+	public votes: any;
+	public ncVoted: any;
+	public ncVotes: any;
+	public ocluster: any;
+	public ncluster: any;
+	public ncMajority: any;
+	public majority: any;
+	public configAry: any;
+
   /**
    * creates a new ClusterConfiguration instance
    *
@@ -282,7 +294,7 @@ class ClusterConfiguration {
    * @param {Function} [destructor] (value, peerId) => {void}
    * @return {Map}
   **/
-  updateOtherPeersMap(map, factory, destructor) {
+  updateOtherPeersMap(map, factory, destructor?) {
     var peers = this.peers
       , peerId;
 

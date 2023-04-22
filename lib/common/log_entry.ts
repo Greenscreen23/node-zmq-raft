@@ -108,6 +108,9 @@ class UpdateRequest extends Buffer {
 
 /* in node 4 and later Buffer hackishly descends from Uint8Array */
 class LogEntry extends Buffer {
+	public _requestId: any;
+	public slice: any;
+	public toString: any;
   /* Creates a new LogEntry instance from a buffer without copying its bytes */
   constructor(buffer, logIndex) {
     if (!isBuffer(buffer) || buffer.length < LOG_ENTRY_HEADER_SIZE) {

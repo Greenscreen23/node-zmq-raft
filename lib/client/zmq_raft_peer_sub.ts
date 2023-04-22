@@ -97,6 +97,18 @@ const debug = require('debug')('zmq-raft:peer-sub');
  *                  It's possible to extend the timeout period by calling `refreshPulseTimeout()`.
 **/
 class ZmqRaftPeerSub extends ZmqRaftPeerClient {
+	public broadcastTimeoutMs: any;
+	public url: any;
+	public lastLogIndex: any;
+	public currentTerm: any;
+	public isLeader: any;
+	public sub: any;
+	public _listener: any;
+	public _pulseTimeout: any;
+	public _subscribing: any;
+	public emit: any;
+	public request: any;
+
   /**
    * Create ZmqRaftPeerSub
    *
@@ -274,7 +286,7 @@ class ZmqRaftPeerSub extends ZmqRaftPeerClient {
    *
    * @return {Promise}
   **/
-  subscribe(timeout) {
+  subscribe(timeout?) {
     if (this._subscribing) return this._subscribing;
 
     const sub = this.sub
@@ -402,6 +414,23 @@ for (let prop in EventEmitter.prototype) {
 }
 
 class ForeverEntriesStream extends Readable {
+	public client: any;
+	public isFlowing: any;
+	public _ahead: any;
+	public _rlStream: any;
+	public sentIndex: any;
+	public _errorHandler: any;
+	public destroy: any;
+	public _closeHandler: any;
+	public _timeoutHandler: any;
+	public _recvMissingEntries: any;
+	public _pulseHandler: any;
+	public push: any;
+	public timeout: any;
+	public snapshotOffset: any;
+	public lastIndex: any;
+	public entries: any;
+
   constructor(client, lastIndex, options) {
     var {timeout, snapshotOffset} = options || {}; // TODO: count perhaps?
 

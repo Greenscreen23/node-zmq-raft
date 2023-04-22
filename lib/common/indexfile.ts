@@ -61,6 +61,16 @@ const fd$       = Symbol.for('fd')
 */
 
 class IndexFile extends ReadyEmitter {
+	public error: any;
+	public basename: any;
+	public isReady: any;
+	public index: any;
+	public filename: any;
+	public capacity: any;
+	public position: any;
+	public offsets: any;
+	public buffer: any;
+
   /**
    * read or create a new IndexFile
    *
@@ -369,7 +379,7 @@ class IndexFile extends ReadyEmitter {
    * @param {number} [offset] - data offset in the buffer to start splitting at
    * @return {Array}
   **/
-  splitb(index, count, buffer, offset) {
+  splitb(index, count, buffer, offset?) {
     offset >>>= 0;
     count >>>= 0;
     index -= this.index;
@@ -528,7 +538,7 @@ class IndexFile extends ReadyEmitter {
    * @param {boolean} [uncommitted]
    * @return {Promise}
   **/
-  write(data, index, uncommitted) {
+  write(data, index?, uncommitted?) {
     var nextAt = this[nextAt$];
     if ('number' === typeof index) index -= this.index; else index = nextAt;
     if (index < 0 || index > this.capacity) return Promise.reject(new Error("IndexFile: index out of bounds"));
@@ -623,7 +633,7 @@ class IndexFile extends ReadyEmitter {
    * @param {number} [index]
    * @return {Promise}
   **/
-  writev(datav, index) {
+  writev(datav, index?) {
     var nextAt = this[nextAt$];
     if ('number' === typeof index) index -= this.index; else index = nextAt;
     if (index < 0 || index > this.capacity) return Promise.reject(new Error("IndexFile: index out of bounds"));

@@ -23,6 +23,12 @@ const { ZmqSocket } = require('../utils/zmqsocket');
 const debug = require('debug')('zmq-raft:frames-protocol');
 
 class FramesProtocol {
+	public name: any;
+	public encodeRequest: any;
+	public decodeRequest: any;
+	public encodeResponse: any;
+	public decodeResponse: any;
+
   /**
    * Create FramesProtocol
    *

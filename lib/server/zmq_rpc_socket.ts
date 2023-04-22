@@ -70,6 +70,10 @@ RpcCancelError.prototype.isCancel = true;
 
 
 class ZmqRpcSocket {
+	public url: any;
+	public options: any;
+	public timeoutMs: any;
+	public socket: any;
 
   /**
    * Create ZmqRpcSocket

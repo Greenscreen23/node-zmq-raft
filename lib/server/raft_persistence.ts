@@ -43,6 +43,11 @@ assertConstantsDefined({ REQUEST_LOG_ENTRY_BASE64_LENGTH }, 'number');
  *         recreated by the protocol.
 **/
 class RaftPersistence extends FilePersistence {
+	public currentTerm: any;
+	public votedFor: any;
+	public peers: any;
+	public peersUpdateRequest: any;
+	public peersIndex: any;
 
   /**
    * Creates a new instance of RaftPersistence.

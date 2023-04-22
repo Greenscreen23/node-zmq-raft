@@ -178,6 +178,23 @@ rolling criteria:
 */
 
 class FileLog extends ReadyEmitter {
+	public requestIdTtl: any;
+	public requestIdCacheMax: any;
+	public _appendQueue: any;
+	public _termBufferLastTerm: any;
+	public _termBuffer: any;
+	public firstIndex: any;
+	public lastIndex: any;
+	public lastTerm: any;
+	public error: any;
+	public snapshot: any;
+	public installSnapshotWatcher: any;
+	public hasRequestExpired: any;
+	public readOnly: any;
+	public emit: any;
+	public logdir: any;
+	public indexFileCapacity: any;
+
   /**
    * Creates an instance of a new FileLog.
    *
@@ -425,7 +442,7 @@ class FileLog extends ReadyEmitter {
     return synchronize(this, () => this._writeEntries(entries, index));
   }
 
-  _writeEntries(entries, index) {
+  _writeEntries(entries, index?) {
     if (index === undefined) index = this.lastIndex + 1;
     else if (!isValidIndex(index)) throw new Error("FileLog.appendEntries: index is invalid");
 
@@ -600,7 +617,7 @@ class FileLog extends ReadyEmitter {
    * @param {Buffer} [buffer]
    * @return {Promise}
   **/
-  getEntry(index, buffer) {
+  getEntry(index, buffer?) {
     return this._indexFileOf(index, indexFile => {
       if (isBuffer(buffer) && buffer.length >= indexFile.getByteSize(index, 1)) {
         return indexFile.readb(index, 1, buffer, 0).then(length => buffer.slice(0, length));
@@ -694,7 +711,7 @@ class FileLog extends ReadyEmitter {
    * @param {Object} [options] - LogStream options
    * @return {LogStream}
   **/
-  createEntriesReadStream(firstIndex, lastIndex, options) {
+  createEntriesReadStream(firstIndex, lastIndex, options?) {
     if (!isValidIndex(firstIndex) || firstIndex < this.firstIndex || firstIndex > this.lastIndex) {
       throw new TypeError("FileLog.streamEntries: firstIndex must be a valid index");
     }
@@ -935,14 +952,14 @@ class FileLog extends ReadyEmitter {
     return lockShared(lastIndexFile, () => lastIndexFile.ready().then(callback));
   }
 
-  _lastIndexFile(callback) {
+  _lastIndexFile(callback?) {
     if (this.readOnly) Promise.reject(new Error("FileLog is in read-only mode"));
     const lastIndexFile = this[lastIndexFile$];
     if (callback) return lockShared(lastIndexFile, () => lastIndexFile.ready().then(callback));
     return lastIndexFile.ready();
   }
 
-  _indexFileOf(index, callback) {
+  _indexFileOf(index, callback?) {
     const lastIndexFile = this[lastIndexFile$];
     if (lastIndexFile && lastIndexFile.isReady && lastIndexFile.includes(index)) {
       /* hot path */
@@ -1382,6 +1399,14 @@ function getIndexFileCapacity(indexFile) {
 }
 
 class IndexFileCache extends Map {
+	public fileLog: any;
+	public values: any;
+	public clear: any;
+	public delete: any;
+	public set: any;
+	public has: any;
+	public size: any;
+
   constructor(fileLog) {
     if (!(fileLog instanceof FileLog)) throw TypeError("IndexFileCache requires instance of FileLog");
     super();

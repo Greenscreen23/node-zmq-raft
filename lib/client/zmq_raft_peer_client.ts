@@ -94,6 +94,8 @@ OutOfOrderError.prototype.isOutOfOrder = true;
  * This client can be used to execute the 0MQ Raft RPC protocol on a single peer server.
 **/
 class ZmqRaftPeerClient extends ZmqProtocolSocket {
+	public request: any;
+
   /**
    * Create an instance of ZmqRaftPeerClient.
    * 
@@ -161,7 +163,7 @@ class ZmqRaftPeerClient extends ZmqProtocolSocket {
    * @param {any} [result] - the resolve argument.
    * @return {Promise}
   **/
-  delay(ms, result) {
+  delay(ms, result?) {
     var ts = this[timeout$];
     return new Promise((resolve, reject) => {
       var cancel = (err) => {
@@ -190,7 +192,7 @@ class ZmqRaftPeerClient extends ZmqProtocolSocket {
    *                if this is 0, null or undefined, default timeout is used instead.
    * @return {Promise}
   **/
-  requestConfig(timeout) {
+  requestConfig(timeout?) {
     const msg = [requestConfigTypeBuf, this[secretBuf$]]
         , options = {protocol: requestConfigProtocol, timeout};
 
@@ -218,7 +220,7 @@ class ZmqRaftPeerClient extends ZmqProtocolSocket {
    *                if this is 0, null or undefined, default timeout is used instead.
    * @return {Promise}
   **/
-  requestLogInfo(timeout) {
+  requestLogInfo(timeout?) {
     if (arguments.length === 2) { /* allow ZmqRaftClient API call */
       timeout = arguments[1];
     }
@@ -276,7 +278,7 @@ class ZmqRaftPeerClient extends ZmqProtocolSocket {
    *                if this is 0, null or undefined, default timeout is used instead.
    * @return {Promise}
   **/
-  configUpdate(id, peers, timeout) {
+  configUpdate(id, peers, timeout?) {
     if (id === undefined) return Promise.reject(new Error("configUpdate: required id argument is missing"));
     if (!Buffer.isBuffer(peers)) {
       try {
@@ -346,7 +348,7 @@ class ZmqRaftPeerClient extends ZmqProtocolSocket {
    *                if this is 0, null or undefined, default timeout is used instead.
    * @return {Promise}
   **/
-  requestUpdate(id, data, timeout) {
+  requestUpdate(id, data, timeout?) {
     if (id === undefined) return Promise.reject(new Error("requestUpdate: required id argument is missing"));
     const msg = [requestUpdateTypeBuf, this[secretBuf$], data]
         , options = {
@@ -429,7 +431,7 @@ class ZmqRaftPeerClient extends ZmqProtocolSocket {
    *         starting from this byte offset, providing the `lastIndex` precedes the actual snapshot index.
    * @return {Promise}
   **/
-  requestEntries(lastIndex, count, receiver, timeout, snapshotOffset) {
+  requestEntries(lastIndex, count, receiver, timeout, snapshotOffset?) {
     if ('function' === typeof count) {
       timeout = receiver, receiver = count, count = undefined;
     }
@@ -588,13 +590,16 @@ class ZmqRaftPeerClient extends ZmqProtocolSocket {
    * @param {Object|number} [options|count]
    * @return {RequestEntriesStream}
   **/
-  requestEntriesStream(lastIndex, options) {
+  requestEntriesStream(lastIndex, options?) {
     return new RequestEntriesStream(this, lastIndex, options);
   }
 
 }
 
 class RequestEntriesStream extends Readable {
+	public push: any;
+	public destroy: any;
+
   constructor(client, prevIndex, options) {
     var count, snapshotOffset, timeout;
     if ('number' === typeof options) {

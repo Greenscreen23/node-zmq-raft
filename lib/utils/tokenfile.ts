@@ -96,6 +96,11 @@ function createTokenFile(filename) {
 }
 
 class TokenFile {
+	public fd: any;
+	public promise: any;
+	public buffer: any;
+	public header: any;
+
   constructor(fd, position) {
     this.fd = fd;
     this.promise = Promise.resolve(position);

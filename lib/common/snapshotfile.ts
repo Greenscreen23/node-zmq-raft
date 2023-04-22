@@ -70,6 +70,10 @@ snap.close()
 */
 
 class SnapshotFile extends ReadyEmitter {
+	public error: any;
+	public dataSize: any;
+	public triggerHistoryRotation: any;
+
   /**
    * read or create a new SnapshotFile
    *
@@ -301,7 +305,7 @@ module.exports = exports = SnapshotFile;
 
 /* utils */
 
-function createSnapshotFile(filename, index, term, dataSize, reader) {
+function createSnapshotFile(filename, index, term, dataSize, reader?) {
   if ('object' === typeof dataSize && 'function' === typeof dataSize.pipe) {
     reader = dataSize, dataSize = 0;
   }

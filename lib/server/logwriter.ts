@@ -8,6 +8,10 @@ const { Writable } = require('stream');
 const synchronize = require('../utils/synchronize');
 
 class LogWriter extends Writable {
+	public log: any;
+	public snapshot: any;
+	public nextSnapshotOffset: any;
+
   constructor(log) {
     super({objectMode: true});
     this.log = log;

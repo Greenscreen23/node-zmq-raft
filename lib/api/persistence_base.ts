@@ -14,6 +14,7 @@ const { defineConst } = require('../utils/helpers');
 const ReadyEmitter = require('../common/readyemitter');
 
 class PersistenceBase extends ReadyEmitter {
+	public error: any;
 
   /**
    * Creates new instance

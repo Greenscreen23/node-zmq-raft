@@ -53,6 +53,16 @@ const createBroadcastSmOptions = createOptionsFactory({
  * - `lastApplied` {number} - a last applied log index to the state machine.
 **/
 class BroadcastStateMachine extends FilePersistence {
+	public url: any;
+	public bindUrl: any;
+	public broadcastHeartbeatInterval: any;
+	public _urlBuf: any;
+	public _secretBuf: any;
+	public _broadcastInterval: any;
+	public _fan: any;
+	public on: any;
+	public lastApplied: any;
+	public send: any;
 
   /**
    * Creates new instance

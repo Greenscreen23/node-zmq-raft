@@ -56,6 +56,17 @@ A simple ZMQ RAFT monitoring http server. Responds to the following urls:
 
 */
 class WebMonitor {
+	public port: any;
+	public monitors: any;
+	public index_file: any;
+	public assets_dir: any;
+	public peerWebUrls: any;
+	public url: any;
+	public proto: any;
+	public zmqRaft: any;
+	public server: any;
+	public intervalHandler: any;
+
   /**
    * Creates a new WebMonitor instance.
    *

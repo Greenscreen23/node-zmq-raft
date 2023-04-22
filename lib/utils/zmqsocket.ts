@@ -48,6 +48,10 @@ const toBuffer = (buf) => (isBuffer(buf) ? buf
 
 */
 class ZmqSocket extends Socket {
+	public _zmq: any;
+	public emit: any;
+	public _paused: any;
+
   /**
    * Creates a new socket.
    *

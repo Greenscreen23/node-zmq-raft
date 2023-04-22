@@ -12,6 +12,11 @@ const connectUrls$    = Symbol.for('connectUrls');
 const disconnectUrls$ = Symbol.for('disconnectUrls');
 
 class ZmqBaseSocket {
+	public urls: any;
+	public options: any;
+	public socket: any;
+	public request: any;
+	public connect: any;
 
   constructor(urls, options) {
     if (urls && 'object' === typeof urls && !isArray(urls)) {

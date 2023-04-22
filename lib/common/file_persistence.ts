@@ -41,6 +41,10 @@ const apply$          = Symbol.for('apply')
     , data$           = Symbol.for('data')
 
 class FilePersistence extends PersistenceBase {
+	public error: any;
+	public defaultData: any;
+	public filename: any;
+	public triggerHistoryRotation: any;
 
   /**
    * Creates new instance
