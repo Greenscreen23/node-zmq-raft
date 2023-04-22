@@ -1,0 +1,58 @@
+/* 
+ *  Copyright (c) 2016-2017 Rafał Michalski <royal@yeondir.com>
+ */
+"use strict";
+const setPrototypeOf = Object.setPrototypeOf
+    , isBuffer = Buffer.isBuffer
+
+import { defineConst } from '../utils/helpers';
+
+/* in node 4 and later Buffer hackishly descends from Uint8Array */
+class SnapshotChunk extends Buffer {
+	public snapshotByteOffset: any;
+	public length: any;
+	public snapshotTotalLength: any;
+  /* Creates a new SnapshotChunk instance from a buffer without copying its bytes */
+  constructor(buffer, logIndex, snapshotByteOffset, snapshotTotalLength, logTerm) {
+    if (!isBuffer(buffer)) {
+      throw new TypeError("SnapshotChunk: provided buffer argument is not a buffer");
+    }
+    var chunk = setPrototypeOf(new Uint8Array(buffer.buffer, buffer.byteOffset, buffer.byteLength), SnapshotChunk.prototype);
+    chunk.logIndex = logIndex;
+    chunk.snapshotByteOffset = snapshotByteOffset;
+    chunk.snapshotTotalLength = snapshotTotalLength;
+    chunk.logTerm = logTerm;
+    return chunk;
+  }
+
+  get isFirstChunk() {
+    return this.snapshotByteOffset === 0;
+  }
+
+  get isLastChunk() {
+    return this.snapshotByteOffset + this.length === this.snapshotTotalLength;
+  }
+
+  static isSnapshotChunk(chunk) {
+    return chunk instanceof SnapshotChunk;
+  }
+
+  /* Converts buffer instance to SnapshotChunk (replaces its __proto__) */
+  static bufferToSnapshotChunk(buffer, logIndex, snapshotByteOffset, snapshotTotalLength, logTerm) {
+    if (!isBuffer(buffer)) {
+      throw new TypeError("SnapshotChunk: provided buffer argument is not a buffer");
+    }
+    var chunk = setPrototypeOf(buffer, SnapshotChunk.prototype);
+    chunk.logIndex = logIndex;
+    chunk.snapshotByteOffset = snapshotByteOffset;
+    chunk.snapshotTotalLength = snapshotTotalLength;
+    chunk.logTerm = logTerm;
+    return chunk;
+  }
+}
+
+defineConst(SnapshotChunk.prototype, 'isSnapshotChunk', true);
+
+defineConst(SnapshotChunk, 'SnapshotChunk', SnapshotChunk);
+
+export default exports = SnapshotChunk;
