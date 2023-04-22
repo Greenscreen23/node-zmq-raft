@@ -3,11 +3,11 @@
  */
 "use strict";
 
-const os = require('os');
-const fs = require('fs');
-const path = require('path');
-const REPL = require('repl');
-const readline = require('readline');
+import os from 'os';
+import fs from 'fs';
+import path from 'path';
+import REPL from 'repl';
+import readline from 'readline';
 
 exports.REPL = REPL;
 exports.readline = readline;
@@ -67,7 +67,7 @@ function readFile(path, opts) {
       resolve(data);
     });
   });
-};
+}
 
 function rename(oldPath, newPath) {
   return new Promise((resolve, reject) => {
@@ -76,4 +76,4 @@ function rename(oldPath, newPath) {
       resolve();
     });
   });
-};
+}

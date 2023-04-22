@@ -7,10 +7,10 @@
   Promisify only what we need in a way we need.
 */
 
-const {
+import {
   access,
   close,
-  constants: { O_RDONLY, O_DIRECTORY },
+  constants,
   fdatasync,
   fstat,
   fsync,
@@ -24,14 +24,14 @@ const {
   stat,
   unlink,
   write,
-  writeFile
-} = require('fs');
+  writeFile,
+} from 'fs';
 
-const { dirname } = require('path');
-const mkdirp = require('mkdirp');
-const parallel = require('../utils/parallel');
-
-const debug = require('debug')('zmq-raft:fsutils');
+import { dirname } from 'path';
+import mkdirp from 'mkdirp';
+import parallel from '../utils/parallel';
+import debugFactory from 'debug';
+const debug = debugFactory('zmq-raft:fsutils');
 
 if (!O_DIRECTORY) debug("OS does not support directory syncing with fsync");
 

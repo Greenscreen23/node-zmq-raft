@@ -3,21 +3,21 @@
  */
 "use strict";
 
-const path = require('path');
-const { readdir, unlink } = require("../utils/fsutil");
+import path from 'path';
+import { readdir, unlink } from '../utils/fsutil';
 
 const emptyFunction = () => {};
 
 var tmpFileCounter = 0;
 
-exports.createTempName = function(filename) {
+export const createTempName = function(filename) {
   tmpFileCounter = ++tmpFileCounter >>> 0;
   return filename + '.tmp-' + process.pid + '-' + tmpFileCounter.toString(36);
 };
 
 const tmpFileMatch = /^\d+-[0-9a-z]+$/;
 
-exports.cleanupTempFiles = function(filename, debug) {
+export const cleanupTempFiles = function(filename, debug) {
   debug || (debug = emptyFunction);
   const basename = path.basename(filename) + '.tmp-'
       , baselen = basename.length

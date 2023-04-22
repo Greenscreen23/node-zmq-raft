@@ -3,8 +3,8 @@
  */
 "use strict";
 
-const { stat, open, close } = require('../utils/fsutil');
-const { TokenFile, TOKEN_HEADER_SIZE } = require('../utils/tokenfile');
+import { stat, open, close } from '../utils/fsutil';
+import { TokenFile, TOKEN_HEADER_SIZE } from '../utils/tokenfile';
 
 const FTYPE_DIRECTORY    = Symbol('directory')
     , FTYPE_FILE         = Symbol('file')

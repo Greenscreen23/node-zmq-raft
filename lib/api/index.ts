@@ -3,5 +3,5 @@
  */
 "use strict";
 
-exports.PersistenceBase = require('./persistence_base');
-exports.StateMachineBase = require('./state_machine_base');
+export const PersistenceBase = require('./persistence_base');
+export const StateMachineBase = require('./state_machine_base');

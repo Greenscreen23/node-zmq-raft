@@ -3,9 +3,9 @@
  */
 "use strict";
 
-exports.BroadcastStateMachine = require('./broadcast_state_machine');
-exports.FileLog               = require('./filelog');
-exports.ZmqRaft               = require('./raft');
-exports.RaftPersistence       = require('./raft_persistence');
-exports.ZmqRpcSocket          = require('./zmq_rpc_socket');
-exports.builder               = require('./builder');
+export const BroadcastStateMachine = require('./broadcast_state_machine');
+export const FileLog = require('./filelog');
+export const ZmqRaft = require('./raft');
+export const RaftPersistence = require('./raft_persistence');
+export const ZmqRpcSocket = require('./zmq_rpc_socket');
+export const builder = require('./builder');

@@ -6,30 +6,27 @@
 const now = Date.now
     , min = Math.min;
 
-const assert = require('assert');
+import assert from 'assert';
+import debugFactory from 'debug';
+const debug = debugFactory('zmq-raft:router');
+import { decode as decodeMsgPack } from 'msgpack-lite';
+import { decodeRequestId, requestIdIsValid } from '../server/zmq_rpc_socket';
+import { assertConstantsDefined } from '../utils/helpers';
 
-const debug = require('debug')('zmq-raft:router');
-
-const { decode: decodeMsgPack } = require('msgpack-lite');
-
-const { decodeRequestId, requestIdIsValid } = require('../server/zmq_rpc_socket');
-
-const { assertConstantsDefined } = require('../utils/helpers');
-
-const { FSM_CLIENT
-      , FSM_FOLLOWER
-      , FSM_CANDIDATE
-      , FSM_LEADER
-
-      , APPEND_ENTRY
-      , REQUEST_VOTE
-      , INSTALL_SNAPSHOT
-      , REQUEST_UPDATE
-      , CONFIG_UPDATE
-      , REQUEST_ENTRIES
-      , REQUEST_CONFIG
-      , REQUEST_LOG_INFO
-      } = require('../common/constants');
+import {
+  FSM_CLIENT,
+  FSM_FOLLOWER,
+  FSM_CANDIDATE,
+  FSM_LEADER,
+  APPEND_ENTRY,
+  REQUEST_VOTE,
+  INSTALL_SNAPSHOT,
+  REQUEST_UPDATE,
+  CONFIG_UPDATE,
+  REQUEST_ENTRIES,
+  REQUEST_CONFIG,
+  REQUEST_LOG_INFO,
+} from '../common/constants';
 
 assertConstantsDefined({
   APPEND_ENTRY
@@ -58,15 +55,16 @@ const APPEND_ENTRY_MATCH     = (APPEND_ENTRY).charCodeAt(0)
     , REQUEST_CONFIG_MATCH   = (REQUEST_CONFIG).charCodeAt(0)
     , REQUEST_LOG_INFO_MATCH = (REQUEST_LOG_INFO).charCodeAt(0)
 
-const { requestUpdateHandler
-      , configUpdateHandler
-      , requestEntriesHandler
-      , requestConfigHandler
-      , requestLogInfoHandler } = require('../server/raft_server');
+import {
+  requestUpdateHandler,
+  configUpdateHandler,
+  requestEntriesHandler,
+  requestConfigHandler,
+  requestLogInfoHandler,
+} from '../server/raft_server';
 
-const { createFramesProtocol } = require('../protocol');
-
-const { lastConfigOffsetOf, readers: { readDataOf, readRequestIdOf } } = require('../common/log_entry');
+import { createFramesProtocol } from '../protocol';
+import { lastConfigOffsetOf, readers } from '../common/log_entry';
 
 const getConfigEntryPeers = (entry) => (entry && decodeMsgPack(readDataOf(entry)));
 const getConfigEntryRequestKey = (entry) => (entry && readRequestIdOf(entry, 'base64'));
@@ -102,7 +100,7 @@ const handlers = {
 , [REQUEST_LOG_INFO_MATCH]: { decodeRequest: decodeRequestLogInfoRequest,  handler: requestLogInfoHandler }
 };
 
-exports.dispatchHandler = function(reply, args) {
+export const dispatchHandler = function(reply, args) {
   const [msgType, secret] = args
       , typeLength = msgType.length;
 

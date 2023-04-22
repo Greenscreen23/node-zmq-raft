@@ -3,15 +3,15 @@
  */
 "use strict";
 
-const assert = require('assert');
+import assert from 'assert';
+import colors from 'colors/safe';
 
-const colors = require('colors/safe')
-    , { cyan, green, grey, magenta, red, yellow, bgGreen } = colors;
+const { cyan, green, grey, magenta, red, yellow, bgGreen } = colors;
 
-const ZmqRaftClient = require('../client/zmq_raft_client');
-const { lpad } = require('./helpers');
+import ZmqRaftClient from '../client/zmq_raft_client';
+import { lpad } from './helpers';
 
-exports.listPeers = function listPeers(client) {
+export const listPeers = function listPeers(client) {
   if (!client) {
     console.log(yellow('not connected'));
     return Promise.resolve();
@@ -36,7 +36,7 @@ exports.listPeers = function listPeers(client) {
   });
 };
 
-exports.showInfo = function showInfo(client, id) {
+export const showInfo = function showInfo(client, id) {
   if (!client) {
     console.log(yellow('not connected'));
     return Promise.resolve();
@@ -76,7 +76,7 @@ exports.showInfo = function showInfo(client, id) {
   .then(cleanUp, err => { cleanUp(); throw err; });
 };
 
-exports.argToBoolean = function argToBoolean(arg) {
+export const argToBoolean = function argToBoolean(arg) {
   switch(arg.toLowerCase()) {
   case 'yes':
   case 'y':
@@ -98,7 +98,7 @@ const prompt = exports.prompt = function prompt(repl) {
   repl.displayPrompt();
 };
 
-exports.replError = function replError(repl, err) {
+export const replError = function replError(repl, err) {
   console.warn(red('ERROR'));
   console.warn(err.stack);
   prompt(repl);

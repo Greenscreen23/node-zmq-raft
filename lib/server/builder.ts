@@ -5,24 +5,14 @@
 
 const isArray = Array.isArray;
 
-const path = require('path');
-const fs = require('fs');
-
-const { Z_BEST_COMPRESSION } = require('zlib');
-
-const debug = require('debug')('zmq-raft:builder');
-
-const { ZmqRaft
-      , FileLog
-      , RaftPersistence 
-      , BroadcastStateMachine
-      } = require('.');
-
-const { fsutil: { mkdirp }
-      , helpers: { parsePeers, isNonEmptyString, createOptionsFactory }
-      } = require('../utils');
-
-const WebMonitor = require('./webmonitor');
+import path from 'path';
+import fs from 'fs';
+import { Z_BEST_COMPRESSION } from 'zlib';
+import debugFactory from 'debug';
+const debug = debugFactory('zmq-raft:builder');
+import { ZmqRaft, FileLog, RaftPersistence, BroadcastStateMachine } from '.';
+import { fsutil, helpers } from '../utils';
+import WebMonitor from './webmonitor';
 
 const defaultOptions = exports.defaultOptions = {
     /* required */
@@ -173,7 +163,7 @@ function createBroadcastStateMachine(options) {
   });
 }
 
-exports.build = function build(options) {
+export const build = function build(options) {
   debug('building raft server');
 
   try {

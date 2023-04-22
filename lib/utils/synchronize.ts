@@ -29,7 +29,7 @@ const emptyFunction = () => {};
  * @param {Function} [callback]
  * @return {Promise}
 **/
-module.exports = exports = function synchronize(scope, callback) {
+export default exports = function synchronize(scope, callback) {
   var promise = scopes.get(scope);
 
   callback || (callback = emptyFunction);

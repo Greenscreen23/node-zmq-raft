@@ -6,27 +6,24 @@
 const now = Date.now
     , min = Math.min
 
-const assert = require('assert');
-
-const debug = require('debug')('zmq-raft:server');
-
-const { encode: encodeMsgPack } = require('msgpack-lite');
-
-const { assertConstantsDefined } = require('../utils/helpers');
-
-const { shared: lockShared } = require('../utils/lock');
+import assert from 'assert';
+import debugFactory from 'debug';
+const debug = debugFactory('zmq-raft:server');
+import { encode as encodeMsgPack } from 'msgpack-lite';
+import { assertConstantsDefined } from '../utils/helpers';
+import { shared as lockShared } from '../utils/lock';
 
 const emptyChunk = Buffer.alloc(0);
 
 const unhandled$ = Symbol('unhandled$');
 
-const { RE_STATUS_NOT_LEADER
-      , RE_STATUS_LAST
-      , RE_STATUS_MORE
-      , RE_STATUS_SNAPSHOT
-
-      , FSM_LEADER
-      } = require('../common/constants');
+import {
+  RE_STATUS_NOT_LEADER,
+  RE_STATUS_LAST,
+  RE_STATUS_MORE,
+  RE_STATUS_SNAPSHOT,
+  FSM_LEADER,
+} from '../common/constants';
 
 assertConstantsDefined({
   RE_STATUS_NOT_LEADER
@@ -39,7 +36,7 @@ assertConstantsDefined({
   FSM_LEADER
 }, 'symbol');
 
-const { createFramesProtocol } = require('../protocol');
+import { createFramesProtocol } from '../protocol';
 
 const {
   encodeResponse: encodeRequestUpdateResponse }  = createFramesProtocol('RequestUpdate');
@@ -55,7 +52,7 @@ const {
 
 /* client handlers */
 
-exports.configUpdateHandler = function(reply, peers) {
+export const configUpdateHandler = function(reply, peers) {
   const requestId = reply.requestId
       , cluster = this.cluster;
 
@@ -147,7 +144,7 @@ exports.configUpdateHandler = function(reply, peers) {
   }
 };
 
-exports.requestUpdateHandler = function(reply, logData) {
+export const requestUpdateHandler = function(reply, logData) {
   const requestId = reply.requestId;
 
   if (logData.length === 0 || logData.length > this.maxLogEntryDataSize) {
@@ -226,8 +223,7 @@ exports.requestUpdateHandler = function(reply, logData) {
   }
 };
 
-
-exports.requestEntriesHandler = function(reply, prevIndex, count, snapshotOffset) {
+export const requestEntriesHandler = function(reply, prevIndex, count, snapshotOffset) {
 
   var sendReply = (status, lastIndex, entries, byteOffset, snapshotSize, snapshotTerm) => {
     var arg1 = byteOffset !== undefined ? [byteOffset, snapshotSize, snapshotTerm]
@@ -389,7 +385,7 @@ exports.requestEntriesHandler = function(reply, prevIndex, count, snapshotOffset
   entriesRequests.set(requestKey, pending);
 
   ensureRequestEntriesTimeout.call(this);
-}
+};
 
 function lockAndSendSnapshot(sendReply, requestKey, snapshotOffset) {
   var snapshot = this._log.snapshot;
@@ -549,15 +545,15 @@ function ensureRequestEntriesTimeout() {
 }
 
 
-exports.requestConfigHandler = function(reply) {
+export const requestConfigHandler = function(reply) {
   const isLeader = this.state === FSM_LEADER
       , leaderId = isLeader ? this.peerId : this.followLeaderId
       , configAry = this.cluster.configAry;
 
   reply(encodeRequestConfigResponse([isLeader, leaderId, configAry]));
-}
+};
 
-exports.requestLogInfoHandler = function(reply) {
+export const requestLogInfoHandler = function(reply) {
   const isLeader = this.state === FSM_LEADER
       , log = this._log
       , leaderId = isLeader ? this.peerId
@@ -574,4 +570,4 @@ exports.requestLogInfoHandler = function(reply) {
     log.snapshot.dataSize,
     this.pruneIndex
   ]));
-}
+};

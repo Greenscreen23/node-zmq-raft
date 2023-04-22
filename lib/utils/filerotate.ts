@@ -6,26 +6,26 @@
 const RETAIN_FILES_MAX = 60;
 const ROTATE_HISTORY_DELAY_MS = 5000;
 
-const path = require('path');
-const { readdir, unlink } = require("../utils/fsutil");
+import path from 'path';
+import { readdir, unlink } from '../utils/fsutil';
 const historyTimeout$ = Symbol("historyTimeout");
 
 const emptyFunction = () => {};
 
 var lastRotateTstr, rotateFileCounter = 0;
 
-exports.createRotateName = function(filename) {
+export const createRotateName = function(filename) {
   var tstr = new Date().toISOString();
   rotateFileCounter = (lastRotateTstr === tstr) ? rotateFileCounter + 1 : 0;
   lastRotateTstr = tstr;
   return filename + '-' + tstr.substr(0, 10) + '-' +
         tstr.substr(11,2) + tstr.substr(14,2) + tstr.substr(17,2) + '-' +
         tstr.substr(20,3) + rotateFileCounter.toString(36);
-}
+};
 
 /* installs triggerHistoryRotation method
    requires that this inscance has `filename` property */
-exports.mixin = function(proto, debug, retainFilesMax, rotateHistoryDelayMs) {
+export const mixin = function(proto, debug, retainFilesMax, rotateHistoryDelayMs) {
   debug || (debug = emptyFunction);
   if (retainFilesMax === undefined) retainFilesMax = RETAIN_FILES_MAX;
   retainFilesMax = +retainFilesMax;

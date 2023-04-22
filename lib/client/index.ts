@@ -3,9 +3,9 @@
  */
 "use strict";
 
-exports.ZmqBaseSocket = require('./zmq_base_socket');
-exports.ZmqProtocolSocket = require('./zmq_protocol_socket');
-exports.ZmqRaftPeerClient = require('./zmq_raft_peer_client');
-exports.ZmqRaftClient = require('./zmq_raft_client');
-exports.ZmqRaftPeerSub = require('./zmq_raft_peer_sub');
-exports.ZmqRaftSubscriber = require('./zmq_raft_subscriber');
+export const ZmqBaseSocket = require('./zmq_base_socket');
+export const ZmqProtocolSocket = require('./zmq_protocol_socket');
+export const ZmqRaftPeerClient = require('./zmq_raft_peer_client');
+export const ZmqRaftClient = require('./zmq_raft_client');
+export const ZmqRaftPeerSub = require('./zmq_raft_peer_sub');
+export const ZmqRaftSubscriber = require('./zmq_raft_subscriber');
