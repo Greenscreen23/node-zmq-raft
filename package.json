@@ -3,6 +3,7 @@
   "version": "0.4.1",
   "description": "An opinionated Raft implementation powered by ØMQ",
   "main": "index.js",
+  "types": "index.d.ts",
   "bin": {
     "zmq-raft": "./bin/zmq-raft.js",
     "zr-log-compact": "./bin/zr-log-compact.js",
