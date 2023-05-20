@@ -305,6 +305,17 @@ declare namespace node_zmq_raft {
             createDataReadStream(position?: number): ReadStream;
             makeTokenFile(): utils.TokenFile;
         }
+        namespace LogEntry {
+            class UpdateRequest extends Buffer {
+                constructor(buffer: Buffer, requestId: string | Buffer)
+                requestId: string | Buffer;
+                static isUpdateRequest(buffer: Buffer): buffer is UpdateRequest;
+                static bufferToUpdateRequest(buffer: Buffer, requestId: string | Buffer): UpdateRequest;
+            }
+            const LOG_ENTRY_TYPE_STATE: number,
+            const LOG_ENTRY_TYPE_CONFIG: number,
+            const LOG_ENTRY_TYPE_CHECKPOINT: number,
+        }
     }
     namespace protocol {}
     namespace utils {
@@ -336,6 +347,9 @@ declare namespace node_zmq_raft {
             constructor();
             cancelSend(): ZmqSocket;
             send(msg: string | Buffer | Array): boolean;
+        }
+        namespace id {
+            function genIdent(encoding?: string, offset?: number): string | Buffer;
         }
     }
     namespace server {
