@@ -15,7 +15,7 @@ declare namespace node_zmq_raft {
             constructor();
             close(): Promise;
             applyEntries(
-                entries: Array,
+                entries: Array<Buffer>,
                 nextIndex: number,
                 currentTerm: number,
                 snapshot?: SnapshotBase
@@ -165,7 +165,7 @@ declare namespace node_zmq_raft {
             requestUpdate(
                 id: string | Buffer,
                 data: Buffer,
-                rpctimeout: number
+                rpctimeout?: number
             ): Promise<number>;
             requestEntries(
                 lastIndex: number,
@@ -312,9 +312,15 @@ declare namespace node_zmq_raft {
                 static isUpdateRequest(buffer: Buffer): buffer is UpdateRequest;
                 static bufferToUpdateRequest(buffer: Buffer, requestId: string | Buffer): UpdateRequest;
             }
-            const LOG_ENTRY_TYPE_STATE: number,
-            const LOG_ENTRY_TYPE_CONFIG: number,
-            const LOG_ENTRY_TYPE_CHECKPOINT: number,
+            const LOG_ENTRY_TYPE_STATE: number;
+            const LOG_ENTRY_TYPE_CONFIG: number;
+            const LOG_ENTRY_TYPE_CHECKPOINT: number;
+            const readers: {
+                readTypeOf: (entry: Buffer) => number;
+                readTermOf: (entry: Buffer) => number;
+                readRequestIdOf: (entry: Buffer, encoding: string) => string | Buffer;
+                readDataOf: (entry: Buffer) => Buffer;
+            }
         }
     }
     namespace protocol {}
