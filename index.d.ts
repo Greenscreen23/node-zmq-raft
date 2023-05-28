@@ -318,7 +318,7 @@ declare namespace node_zmq_raft {
             const readers: {
                 readTypeOf: (entry: Buffer) => number;
                 readTermOf: (entry: Buffer) => number;
-                readRequestIdOf: (entry: Buffer, encoding: string) => string | Buffer;
+                readRequestIdOf: (entry: Buffer, encoding?: string) => string | Buffer;
                 readDataOf: (entry: Buffer) => Buffer;
             }
         }
