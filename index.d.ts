@@ -437,7 +437,7 @@ declare namespace node_zmq_raft {
                 lastIndex: number,
                 options?: Object
             ): LogStream;
-            termAt(index: number): Promise;
+            termAt(index: number): Promise<number>;
             createTmpSnapshot(
                 index: number,
                 term: number,
@@ -452,7 +452,7 @@ declare namespace node_zmq_raft {
                 stateMachine: api.StateMachineBase,
                 lastIndex?: number,
                 currentTerm?: number
-            ): Promise;
+            ): Promise<number>;
             findIndexFilePathOf(index: number): Promise;
         }
         class ZmqRaft extends common.ReadyEmitter {
@@ -463,6 +463,9 @@ declare namespace node_zmq_raft {
                 stateMachine: api.StateMachineBase,
                 options: Object
             );
+            _log: FileLog;
+            commitIndex: number;
+            pruneIndex: number;
             close(): Promise;
             get url(): string | undefined;
             get peersAry(): Array;
