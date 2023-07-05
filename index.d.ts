@@ -286,6 +286,7 @@ declare namespace node_zmq_raft {
             toString(): string;
             get filename(): string;
             get dataOffset(): number;
+            dataSize: number;
             close(): Promise;
             get isClosed(): boolean;
             read(
